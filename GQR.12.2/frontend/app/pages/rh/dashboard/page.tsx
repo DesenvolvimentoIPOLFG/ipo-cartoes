@@ -6,7 +6,10 @@ import {
   ClockIcon,
   CheckCircleIcon,
   IdentificationIcon,
-  ExclamationCircleIcon 
+  ExclamationCircleIcon,
+  ArrowRightIcon,
+  PresentationChartLineIcon,
+  TableCellsIcon
 } from '@heroicons/react/24/outline'
 import { Line } from 'react-chartjs-2'
 import {
@@ -37,6 +40,7 @@ ChartJS.register(
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
+  const [showTable, setShowTable] = useState(false)
 
   const notifications = [
     {
@@ -61,6 +65,7 @@ export default function Dashboard() {
       status: 'warning',
     },
   ]
+  
   const navigation = [
     { name: 'Dashboard', href: '/pages/rh/dashboard', icon: ChartBarIcon, current: true },
     { name: 'Pedir Cartão', href: '/pages/rh/pedir_cartao', icon: ChartBarIcon, current: false },
@@ -123,6 +128,16 @@ export default function Dashboard() {
     },
   }
 
+  // Dados históricos para a tabela
+  const historicalData = [
+    { mes: 'Janeiro', pendentes: 65, aprovados: 45, ativos: 80, expirados: 20 },
+    { mes: 'Fevereiro', pendentes: 78, aprovados: 85, ativos: 120, expirados: 30 },
+    { mes: 'Março', pendentes: 90, aprovados: 140, ativos: 140, expirados: 40 },
+    { mes: 'Abril', pendentes: 120, aprovados: 160, ativos: 160, expirados: 50 },
+    { mes: 'Maio', pendentes: 110, aprovados: 170, ativos: 180, expirados: 55 },
+    { mes: 'Junho', pendentes: 120, aprovados: 180, ativos: 200, expirados: 60 },
+  ]
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <Sidebar navigation={navigation} />
@@ -177,9 +192,74 @@ export default function Dashboard() {
                 ))}
               </div>
               
-              {/* Gráfico de estatísticas */}
-              <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                <Line options={chartOptions} data={chartData} />
+              {/* Gráfico de estatísticas com botão de alternância */}
+              <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow relative">
+                {/* Botão de alternância */}
+                <button
+                  onClick={() => setShowTable(!showTable)}
+                  className="absolute top-4 right-4 p-2 rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-900 dark:hover:bg-blue-800 transition-colors duration-200"
+                  title={showTable ? 'Ver Gráfico' : 'Ver Tabela de Histórico'}
+                >
+                  {showTable ? (
+                    <PresentationChartLineIcon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  ) : (
+                    <TableCellsIcon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  )}
+                </button>
+
+                {!showTable ? (
+                  <Line options={chartOptions} data={chartData} />
+                ) : (
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                      Histórico de Cartões
+                    </h3>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead className="bg-gray-50 dark:bg-gray-700">
+                          <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              Mês
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              Pedidos Pendentes
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              Pedidos Aprovados
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              Cartões Ativos
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              Cartões Expirados
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                          {historicalData.map((row, index) => (
+                            <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                {row.mes}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-yellow-600 dark:text-yellow-400">
+                                {row.pendentes}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-green-600 dark:text-green-400">
+                                {row.aprovados}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 dark:text-blue-400">
+                                {row.ativos}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-red-600 dark:text-red-400">
+                                {row.expirados}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
