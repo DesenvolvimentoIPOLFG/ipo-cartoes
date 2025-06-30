@@ -70,7 +70,7 @@ export default function Dashboard() {
     { name: 'Dashboard', href: '/pages/rh/dashboard', icon: ChartBarIcon, current: true },
     { name: 'Pedir Cartão', href: '/pages/rh/pedir_cartao', icon: ChartBarIcon, current: false },
     { name: 'Validar 2ª Via', href: '/pages/rh/validar2via', icon: ChartBarIcon, current: false },
-    { name: 'Gerir Cartão', href: '/pages/rh/gerir cartao', icon: ChartBarIcon, current: false },
+    { name: 'Gerir Cartão', href: '/pages/rh/gerir_cartao', icon: ChartBarIcon, current: false },
   ]
 
   const stats = [

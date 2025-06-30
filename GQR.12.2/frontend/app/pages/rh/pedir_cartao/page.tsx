@@ -14,7 +14,36 @@ import Sidebar from '@/app/components/navigation/Sidebar'
 export default function PedirCartao() {
   const [currentStep, setCurrentStep] = useState(1)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
-  const [notifications, setNotifications] = useState([])
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      title: 'Pedido Submetido com Sucesso',
+      description: 'O seu pedido de cartão foi enviado para validação',
+      time: 'Há 2 minutos',
+      status: 'success',
+    },
+    {
+      id: 2,
+      title: 'Documentação Necessária',
+      description: 'Lembre-se de anexar todos os documentos obrigatórios',
+      time: 'Há 15 minutos',
+      status: 'warning',
+    },
+    {
+      id: 3,
+      title: 'Novo Formulário Disponível',
+      description: 'Formulário de pedido de cartão foi atualizado',
+      time: 'Há 1 hora',
+      status: 'new',
+    },
+    {
+      id: 4,
+      title: 'Prazo de Entrega',
+      description: 'Cartões são entregues em até 5 dias úteis após aprovação',
+      time: 'Há 2 horas',
+      status: 'info',
+    },
+  ])
   const [formData, setFormData] = useState({
     // Dados do Colaborador
     nome: '',
@@ -34,7 +63,7 @@ export default function PedirCartao() {
     { name: 'Dashboard', href: '/pages/rh/dashboard', icon: ChartBarIcon, current: false },
     { name: 'Pedir Cartão', href: '/pages/rh/pedir_cartao', icon: ChartBarIcon, current: true },
     { name: 'Validar 2ª Via', href: '/pages/rh/validar2via', icon: ChartBarIcon, current: false },
-    { name: 'Gerir Cartão', href: '/pages/rh/gerir cartao', icon: ChartBarIcon, current: false },
+    { name: 'Gerir Cartão', href: '/pages/rh/gerir_cartao', icon: ChartBarIcon, current: false },
   ]
 
   const handleSubmit = (e: React.FormEvent) => {
