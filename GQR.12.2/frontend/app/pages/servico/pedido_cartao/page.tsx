@@ -82,6 +82,7 @@ export default function PedidoCartaoServico() {
         { name: 'Acessos Solicitados', href: '/pages/servico/pedido_cartao/acessos_solicitados', current: false }
       ]
     },
+    { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: true },
   ]
 
   const filteredData = tagsFilter

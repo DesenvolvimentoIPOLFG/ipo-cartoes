@@ -57,6 +57,7 @@ export default function ResumoPedido() {
         { name: 'Acessos Solicitados', href: '/pages/servico/pedido_cartao/acessos_solicitados', current: false }
       ]
     },
+    { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: true },
   ]
 
   // Estado para ações (exemplo)
