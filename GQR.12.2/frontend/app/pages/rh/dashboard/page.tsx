@@ -2,7 +2,6 @@
 
 import { Fragment, useState } from 'react'
 import { 
-  ChartBarIcon,
   ClockIcon,
   CheckCircleIcon,
   IdentificationIcon,
@@ -20,12 +19,13 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from 'chart.js'
 
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
 import Sidebar from '@/app/components/navigation/Sidebar'
+import { getNavigationForSection } from '@/app/config/navigation'
 
 ChartJS.register(
   CategoryScale,
@@ -66,12 +66,7 @@ export default function Dashboard() {
     },
   ]
   
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/rh/dashboard', icon: ChartBarIcon, current: true },
-    { name: 'Pedir Cartão', href: '/pages/rh/pedir_cartao', icon: ChartBarIcon, current: false },
-    { name: 'Validar 2ª Via', href: '/pages/rh/validar2via', icon: ChartBarIcon, current: false },
-    { name: 'Gerir Cartão', href: '/pages/rh/gerir_cartao', icon: ChartBarIcon, current: false },
-  ]
+  const navigation = getNavigationForSection('rh', '/pages/rh/dashboard')
 
   const stats = [
     { name: 'Pedidos Pendentes', value: '120' },

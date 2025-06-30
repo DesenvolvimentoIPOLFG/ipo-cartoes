@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import { 
-  ChartBarIcon,
   CheckIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline'
@@ -10,6 +9,7 @@ import {
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
 import Sidebar from '@/app/components/navigation/Sidebar'
+import { getNavigationForSection } from '@/app/config/navigation'
 
 export default function PedirCartao() {
   const [currentStep, setCurrentStep] = useState(1)
@@ -59,12 +59,7 @@ export default function PedirCartao() {
     data_validade: ''
   })
 
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/rh/dashboard', icon: ChartBarIcon, current: false },
-    { name: 'Pedir Cartão', href: '/pages/rh/pedir_cartao', icon: ChartBarIcon, current: true },
-    { name: 'Validar 2ª Via', href: '/pages/rh/validar2via', icon: ChartBarIcon, current: false },
-    { name: 'Gerir Cartão', href: '/pages/rh/gerir_cartao', icon: ChartBarIcon, current: false },
-  ]
+  const navigation = getNavigationForSection('rh', '/pages/rh/pedir_cartao')
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import { 
-  ChartBarIcon,
   CheckCircleIcon,
   XCircleIcon,
   DocumentTextIcon,
@@ -16,6 +15,7 @@ import {
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
 import Sidebar from '@/app/components/navigation/Sidebar'
+import { getNavigationForSection } from '@/app/config/navigation'
 
 export default function AcoesValidar2Via() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
@@ -40,20 +40,19 @@ export default function AcoesValidar2Via() {
     },
   ]
   
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/rh/dashboard', icon: ChartBarIcon, current: false },
-    { name: 'Pedir Cartão', href: '/pages/rh/pedir_cartao', icon: ChartBarIcon, current: false },
-    { 
-      name: 'Validar 2ª Via', 
-      href: '/pages/rh/validar2via', 
-      icon: ChartBarIcon, 
-      current: true,
-      subItems: [
-        { name: 'Ações', href: '/pages/rh/validar2via/acoes', current: true }
-      ]
-    },
-    { name: 'Gerir Cartão', href: '/pages/rh/gerir_cartao', icon: ChartBarIcon, current: false },
-  ]
+  // Use centralized navigation and add subItems for this specific page
+  const baseNavigation = getNavigationForSection('rh', '/pages/rh/validar2via/acoes')
+  const navigation = baseNavigation.map(item => {
+    if (item.name === 'Validar 2ª Via') {
+      return {
+        ...item,
+        subItems: [
+          { name: 'Ações', href: '/pages/rh/validar2via/acoes', current: true }
+        ]
+      }
+    }
+    return item
+  })
 
   // Dados do colaborador e solicitação
   const solicitacao = {

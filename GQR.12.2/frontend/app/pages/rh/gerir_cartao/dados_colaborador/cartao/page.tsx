@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import { 
-  ChartBarIcon,
   CreditCardIcon,
   IdentificationIcon,
   CalendarIcon,
@@ -15,6 +14,7 @@ import {
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
 import Sidebar from '@/app/components/navigation/Sidebar'
+import { getNavigationForSection } from '@/app/config/navigation'
 
 export default function CartaoColaborador() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
@@ -48,22 +48,21 @@ export default function CartaoColaborador() {
     },
   ]
   
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/rh/dashboard', icon: ChartBarIcon, current: false },
-    { name: 'Pedir Cartão', href: '/pages/rh/pedir_cartao', icon: ChartBarIcon, current: false },
-    { name: 'Validar 2ª Via', href: '/pages/rh/validar2via', icon: ChartBarIcon, current: false },
-    { 
-      name: 'Gerir Cartão', 
-      href: '/pages/rh/gerir_cartao', 
-      icon: ChartBarIcon, 
-      current: true,
-      subItems: [
-        { name: 'Dados do Colaborador', href: '/pages/rh/gerir_cartao/dados_colaborador', current: false },
-        { name: 'Cartão', href: '/pages/rh/gerir_cartao/dados_colaborador/cartao', current: true },
-        { name: 'Ações', href: '/pages/rh/gerir_cartao/dados_colaborador/cartao/acoes', current: false }
-      ]
-    },
-  ]
+  // Use centralized navigation and add subItems for this specific page
+  const baseNavigation = getNavigationForSection('rh', '/pages/rh/gerir_cartao/dados_colaborador/cartao')
+  const navigation = baseNavigation.map(item => {
+    if (item.name === 'Gerir Cartão') {
+      return {
+        ...item,
+        subItems: [
+          { name: 'Dados do Colaborador', href: '/pages/rh/gerir_cartao/dados_colaborador', current: false },
+          { name: 'Cartão', href: '/pages/rh/gerir_cartao/dados_colaborador/cartao', current: true },
+          { name: 'Ações', href: '/pages/rh/gerir_cartao/dados_colaborador/cartao/acoes', current: false }
+        ]
+      }
+    }
+    return item
+  })
 
   const tipoOptions = [
     { value: '', label: 'Selecione o tipo' },
