@@ -1,15 +1,8 @@
 'use client'
 
-import { Fragment, useState } from 'react'
-import { 
+import { useState } from 'react'
+import {
   ChartBarIcon,
-  UserIcon,
-  IdentificationIcon,
-  EnvelopeIcon,
-  PhoneIcon,
-  CalendarIcon,
-  BuildingOfficeIcon,
-  BriefcaseIcon
 } from '@heroicons/react/24/outline'
 
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
@@ -18,6 +11,12 @@ import Sidebar from '@/app/components/navigation/Sidebar'
 
 export default function DadosColaborador() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
+  const [form, setForm] = useState({
+    nome: '',
+    numMec: '',
+    departamento: '',
+    email: '',
+  })
 
   const notifications = [
     {
@@ -42,15 +41,15 @@ export default function DadosColaborador() {
       status: 'info',
     },
   ]
-  
+
   const navigation = [
     { name: 'Dashboard', href: '/pages/rh/dashboard', icon: ChartBarIcon, current: false },
     { name: 'Pedir Cartão', href: '/pages/rh/pedir_cartao', icon: ChartBarIcon, current: false },
     { name: 'Validar 2ª Via', href: '/pages/rh/validar2via', icon: ChartBarIcon, current: false },
-    { 
-      name: 'Gerir Cartão', 
-      href: '/pages/rh/gerir_cartao', 
-      icon: ChartBarIcon, 
+    {
+      name: 'Gerir Cartão',
+      href: '/pages/rh/gerir_cartao',
+      icon: ChartBarIcon,
       current: true,
       subItems: [
         { name: 'Dados do Colaborador', href: '/pages/rh/gerir_cartao/dados_colaborador', current: true },
@@ -60,8 +59,17 @@ export default function DadosColaborador() {
     },
   ]
 
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    alert('Dados do colaborador guardados!')
+  }
+
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">
       <Sidebar navigation={navigation} />
 
       <div className="md:pl-64 flex flex-col flex-1">
@@ -71,25 +79,77 @@ export default function DadosColaborador() {
           setNotificationsOpen={setNotificationsOpen}
         />
 
-        <main className="flex-1">
-          <div className="py-6">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              {/* Page content will go here */}
-              <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
-                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white flex items-center">
-                    <UserIcon className="h-5 w-5 mr-2" />
-                    Informações do Colaborador
-                  </h3>
-                </div>
-                <div className="p-6">
-                  <p className="text-gray-500 dark:text-gray-400">
-                    Esta página será desenvolvida para mostrar e editar os dados detalhados do colaborador.
-                  </p>
-                </div>
+        <main className="flex-1 flex items-center justify-center">
+          <form
+            onSubmit={handleSubmit}
+            className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg px-8 py-10 w-full max-w-2xl border border-gray-200 dark:border-gray-700 flex flex-col items-center"
+          >
+            {/* Título com ícone */}
+            <div className="flex flex-col items-center justify-center mb-8">
+              <span className="mb-1 text-orange-500 text-2xl">🧑‍💼</span>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center">
+                Dados do Colaborador
+              </h2>
+            </div>
+
+            <div className="w-full grid grid-cols-1 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                <label className="font-bold uppercase text-base text-gray-700 dark:text-gray-200 tracking-wider text-right flex items-center justify-end">
+                  Nome Completo
+                </label>
+                <input
+                  type="text"
+                  name="nome"
+                  value={form.nome}
+                  onChange={handleChange}
+                  className="rounded border border-gray-300 dark:border-gray-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white text-base"
+                  required
+                />
+
+                <label className="font-bold uppercase text-base text-gray-700 dark:text-gray-200 tracking-wider text-right flex items-center justify-end">
+                  Num_Mec
+                </label>
+                <input
+                  type="text"
+                  name="numMec"
+                  value={form.numMec}
+                  onChange={handleChange}
+                  className="rounded border border-gray-300 dark:border-gray-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white text-base"
+                  required
+                />
+
+                <label className="font-bold uppercase text-base text-gray-700 dark:text-gray-200 tracking-wider text-right flex items-center justify-end">
+                  Departamento
+                </label>
+                <input
+                  type="text"
+                  name="departamento"
+                  value={form.departamento}
+                  onChange={handleChange}
+                  className="rounded border border-gray-300 dark:border-gray-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white text-base"
+                  required
+                />
+
+                <label className="font-bold uppercase text-base text-gray-700 dark:text-gray-200 tracking-wider text-right flex items-center justify-end">
+                  E-mail
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  className="rounded border border-gray-300 dark:border-gray-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white text-base"
+                  required
+                />
               </div>
             </div>
-          </div>
+            <button
+              type="submit"
+              className="mt-8 w-2/3 mx-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition text-lg"
+            >
+              Guardar Dados
+            </button>
+          </form>
         </main>
       </div>
 
