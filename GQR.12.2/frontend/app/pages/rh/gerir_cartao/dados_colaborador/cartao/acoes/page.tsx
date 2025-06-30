@@ -250,7 +250,7 @@ export default function AcoesCartao() {
                     {/* Observações - Full Width Below */}
                     <div>
                       <label htmlFor="observacoes" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Observações / Justificação *
+                        Observações / Justificação (opcional)
                       </label>
                       <div className="mt-1">
                         <textarea

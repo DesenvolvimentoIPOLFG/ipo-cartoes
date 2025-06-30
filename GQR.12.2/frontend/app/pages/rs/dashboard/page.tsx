@@ -3,24 +3,22 @@
 import { useState } from 'react'
 import {
   ChartBarIcon,
-  MagnifyingGlassIcon,
+  ShieldCheckIcon,
+  ExclamationTriangleIcon,
+  ClockIcon,
+  CheckCircleIcon,
+  MapPinIcon,
+  EyeIcon,
+  PencilIcon,
+  UserGroupIcon,
+  DocumentTextIcon,
+  CalendarDaysIcon,
+  ChartPieIcon
 } from '@heroicons/react/24/outline'
-import { Bar } from 'react-chartjs-2'
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js'
 
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
 import Sidebar from '@/app/components/navigation/Sidebar'
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export default function DashboardRiscoSeguranca() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
@@ -54,148 +52,362 @@ export default function DashboardRiscoSeguranca() {
   ]
 
   const stats = [
-    { name: 'Cartões Pendentes', value: '29' },
-    { name: 'Cartões Ativos', value: '200' },
-    { name: 'Cartões Expirados', value: '60' },
-    { name: 'Pedidos Urgentes', value: '2' },
-    { name: 'Pedidos a Expirar em 7 Dias', value: '15' },
-    { name: 'Taxa de Resposta', value: '85%' },
-    { name: 'Média de Tempo de Resposta', value: '6 horas' },
+    { 
+      name: 'Cartões Pendentes', 
+      value: '29',
+      icon: ClockIcon,
+      color: 'text-yellow-500'
+    },
+    { 
+      name: 'Cartões Ativos', 
+      value: '200',
+      icon: CheckCircleIcon,
+      color: 'text-green-500'
+    },
+    { 
+      name: 'Cartões Expirados', 
+      value: '60',
+      icon: ExclamationTriangleIcon,
+      color: 'text-red-500'
+    },
+    { 
+      name: 'Pedidos Urgentes', 
+      value: '2',
+      icon: ExclamationTriangleIcon,
+      color: 'text-red-600'
+    },
+    { 
+      name: 'Taxa de Resposta', 
+      value: '85%',
+      icon: ChartPieIcon,
+      color: 'text-purple-500'
+    },
+    { 
+      name: 'Média de Tempo de Resposta', 
+      value: '6 horas',
+      icon: ClockIcon,
+      color: 'text-indigo-500'
+    },
   ]
 
-  const priorityChartData = {
-    labels: ['Alta', 'Média', 'Baixa'],
-    datasets: [
-      {
-        label: 'Pedidos',
-        data: [28, 17, 14],
-        backgroundColor: ['#F87171', '#FBBF24', '#34D399'],
-        borderRadius: 4,
-      },
-    ],
-  }
-
-  const priorityChartOptions: any = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        beginAtZero: true,
-        max: 35,
-      },
-    },
-  }
-
+  // Reduced table data to fit viewport without scrolling
   const priorityTableData = [
-    { prioridade: 'Alta', n_mec: '000000', local: 'BLOCO', data: '22/07/2000', status: 'Pendente', obs1: 'há 2 dias', obs2: 'há 2 dias' },
-    { prioridade: 'Média', n_mec: '000000', local: 'ALA B', data: '22/07/2000', status: 'Pendente', obs1: 'há 4 dias', obs2: 'há 4 dias' },
-    { prioridade: 'Alta', n_mec: '000000', local: 'UIPM', data: '22/07/2000', status: 'Pendente', obs1: 'há 1 dia', obs2: 'há 3 dias' },
-    { prioridade: 'Baixa', n_mec: '000000', local: 'GIE', data: '22/07/2000', status: 'Pendente', obs1: 'há 5 dias', obs2: 'há 3 dias' },
+    { 
+      id: 1,
+      prioridade: 'Alta', 
+      n_mec: '000000', 
+      nome: 'João Silva',
+      local: 'BLOCO OPERATÓRIO', 
+      data: '22/07/2024', 
+      status: 'Pendente', 
+      tempo: 'há 2 dias',
+      tipo: 'Novo Cartão',
+      obs: 'Urgente - Acesso ao bloco operatório'
+    },
+    { 
+      id: 2,
+      prioridade: 'Média', 
+      n_mec: '000001', 
+      nome: 'Maria Santos',
+      local: 'ALA B', 
+      data: '20/07/2024', 
+      status: 'Pendente', 
+      tempo: 'há 4 dias',
+      tipo: '2ª Via',
+      obs: 'Cartão perdido'
+    },
+    { 
+      id: 3,
+      prioridade: 'Alta', 
+      n_mec: '000002', 
+      nome: 'Carlos Oliveira',
+      local: 'UIPM', 
+      data: '23/07/2024', 
+      status: 'Pendente', 
+      tempo: 'há 1 dia',
+      tipo: 'Renovação',
+      obs: 'Cartão expirado'
+    },
+    { 
+      id: 4,
+      prioridade: 'Baixa', 
+      n_mec: '000003', 
+      nome: 'Ana Costa',
+      local: 'GIE', 
+      data: '19/07/2024', 
+      status: 'Pendente', 
+      tempo: 'há 5 dias',
+      tipo: 'Novo Cartão',
+      obs: 'Primeiro acesso'
+    },
+    { 
+      id: 5,
+      prioridade: 'Alta', 
+      n_mec: '000004', 
+      nome: 'Pedro Ferreira',
+      local: 'BLOCO OPERATÓRIO', 
+      data: '24/07/2024', 
+      status: 'Em Análise', 
+      tempo: 'há 1 hora',
+      tipo: 'Urgente',
+      obs: 'Emergência médica'
+    },
+    { 
+      id: 6,
+      prioridade: 'Média', 
+      n_mec: '000005', 
+      nome: 'Sofia Rodrigues',
+      local: 'ALA A', 
+      data: '21/07/2024', 
+      status: 'Aprovado', 
+      tempo: 'há 3 dias',
+      tipo: 'Renovação',
+      obs: 'Renovação anual'
+    },
+    { 
+      id: 7,
+      prioridade: 'Baixa', 
+      n_mec: '000006', 
+      nome: 'Miguel Pereira',
+      local: 'LABORATÓRIO', 
+      data: '18/07/2024', 
+      status: 'Pendente', 
+      tempo: 'há 6 dias',
+      tipo: 'Novo Cartão',
+      obs: 'Transferência de departamento'
+    },
+    { 
+      id: 8,
+      prioridade: 'Alta', 
+      n_mec: '000007', 
+      nome: 'Catarina Lopes',
+      local: 'UCI', 
+      data: '25/07/2024', 
+      status: 'Em Análise', 
+      tempo: 'há 30 min',
+      tipo: 'Urgente',
+      obs: 'Acesso crítico necessário'
+    },
+    { 
+      id: 9,
+      prioridade: 'Média', 
+      n_mec: '000008', 
+      nome: 'Ricardo Martins',
+      local: 'FARMÁCIA', 
+      data: '17/07/2024', 
+      status: 'Rejeitado', 
+      tempo: 'há 7 dias',
+      tipo: '2ª Via',
+      obs: 'Documentação incompleta'
+    },
+    { 
+      id: 10,
+      prioridade: 'Baixa',
+      n_mec: '000009',
+      nome: 'Teresa Silva',
+      local: 'ADMINISTRAÇÃO',
+      data: '16/07/2024',
+      status: 'Aprovado',
+      tempo: 'há 8 dias',
+      tipo: 'Renovação',
+      obs: 'Processo concluído'
+    },
+    { 
+      id: 11,
+      prioridade: 'Alta',
+      n_mec: '000010',
+      nome: 'Bruno Costa',
+      local: 'URGÊNCIAS',
+      data: '25/07/2024',
+      status: 'Pendente',
+      tempo: 'há 45 min',
+      tipo: 'Novo Cartão',
+      obs: 'Novo funcionário - urgente'
+    },
+    { 
+      id: 12,
+      prioridade: 'Média',
+      n_mec: '000011',
+      nome: 'Inês Fernandes',
+      local: 'RADIOLOGIA',
+      data: '22/07/2024',
+      status: 'Em Análise',
+      tempo: 'há 2 dias',
+      tipo: '2ª Via',
+      obs: 'Cartão danificado'
+    },
+    { 
+      id: 13,
+      prioridade: 'Baixa',
+      n_mec: '000012',
+      nome: 'Luís Soares',
+      local: 'MANUTENÇÃO',
+      data: '15/07/2024',
+      status: 'Aprovado',
+      tempo: 'há 9 dias',
+      tipo: 'Renovação',
+      obs: 'Renovação trimestral'
+    },
+    { 
+      id: 14,
+      prioridade: 'Alta',
+      n_mec: '000013',
+      nome: 'Patrícia Alves',
+      local: 'PEDIATRIA',
+      data: '26/07/2024',
+      status: 'Pendente',
+      tempo: 'há 15 min',
+      tipo: 'Urgente',
+      obs: 'Emergência pediátrica'
+    },
+    { 
+      id: 15,
+      prioridade: 'Média',
+      n_mec: '000014',
+      nome: 'Rui Carvalho',
+      local: 'CARDIOLOGIA',
+      data: '14/07/2024',
+      status: 'Rejeitado',
+      tempo: 'há 10 dias',
+      tipo: 'Novo Cartão',
+      obs: 'Falta autorização superior'
+    }
   ]
-
 
   const getPriorityClass = (priority: string) => {
     switch (priority.toLowerCase()) {
       case 'alta':
-        return 'bg-red-100 text-red-800'
+        return 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'
       case 'média':
-        return 'bg-yellow-100 text-yellow-800'
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100'
       case 'baixa':
-        return 'bg-green-100 text-green-800'
+        return 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100'
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100'
+    }
+  }
+
+  const getStatusClass = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'pendente':
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100'
+      case 'em análise':
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100'
+      case 'aprovado':
+        return 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100'
+      case 'rejeitado':
+        return 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'
+      default:
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100'
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="h-screen bg-gray-100 dark:bg-gray-900 overflow-hidden">
       <Sidebar navigation={navigation} />
 
-      <div className="md:pl-64 flex flex-col flex-1">
+      <div className="md:pl-64 flex flex-col h-full">
         <Navbar
           title="DASHBOARD RISCO SEGURANÇA"
           notificationsOpen={notificationsOpen}
           setNotificationsOpen={setNotificationsOpen}
-          showBackButton={true}
         />
 
-        <main className="flex-1">
-          <div className="py-8 px-4 sm:px-6 md:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {stats.slice(0, 4).map((item) => (
-                <div key={item.name} className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow">
-                  <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{item.name}</dt>
-                  <dd className="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">{item.value}</dd>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {stats.slice(4, 7).map((item) => (
-                    <div key={item.name} className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow">
-                        <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{item.name}</dt>
-                        <dd className="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">{item.value}</dd>
+        <main className="flex-1 overflow-hidden">
+          <div className="h-full flex flex-col">
+            <div className="flex-1 p-4 space-y-4">
+              <div className="max-w-7xl mx-auto">
+                {/* Stats Cards - Reduced spacing */}
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 mb-4">
+                  {stats.map((item) => (
+                    <div
+                      key={item.name}
+                      className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg"
+                    >
+                      <div className="p-2">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0">
+                            <item.icon className={`h-4 w-4 ${item.color}`} aria-hidden="true" />
+                          </div>
+                          <div className="ml-2 w-0 flex-1">
+                            <dl>
+                              <dt className="text-xs font-medium text-gray-500 dark:text-gray-400 break-words leading-tight">
+                                {item.name}
+                              </dt>
+                              <dd className="flex items-baseline">
+                                <div className="text-base font-semibold text-gray-900 dark:text-white break-words leading-tight">
+                                  {item.value}
+                                </div>
+                              </dd>
+                            </dl>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                ))}
-            </div>
+                  ))}
+                </div>
 
-            <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white">Pedidos por Prioridade</h3>
-                <div className="flex items-center space-x-2">
-                    <button className="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Filtro</button>
-                    <button className="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Local</button>
-                    <button className="flex items-center px-3 py-1 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50">
-                        <MagnifyingGlassIcon className="h-4 w-4 mr-2" />
-                        Marcar como
-                    </button>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-1 h-64">
-                  <Bar options={priorityChartOptions} data={priorityChartData} />
-                </div>
-                <div className="lg:col-span-2 overflow-x-auto">
-                  <table className="min-w-full">
-                    <thead>
-                      <tr className="border-b border-gray-200 dark:border-gray-700">
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Prioridade</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">N.Mec</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Local</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Data</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Status</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Obs</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Obs</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white dark:bg-gray-800">
-                      {priorityTableData.map((row, index) => (
-                        <tr key={index} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
-                          <td className="px-4 py-2 whitespace-nowrap text-sm font-medium">
-                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getPriorityClass(row.prioridade)}`}>
-                              {row.prioridade}
-                            </span>
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{row.n_mec}</td>
-                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900 dark:text-white">{row.local}</td>
-                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{row.data}</td>
-                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{row.status}</td>
-                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{row.obs1}</td>
-                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{row.obs2}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                {/* Priority Requests Table - Constrained height */}
+                <div className="bg-white dark:bg-gray-800 shadow rounded-lg flex flex-col" style={{height: 'calc(100vh - 280px)'}}>
+                  <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+                    <h3 className="text-base font-medium text-gray-900 dark:text-white">Pedidos por Prioridade</h3>
+                  </div>
+                  <div className="flex-1 overflow-hidden">
+                    <div className="h-full overflow-y-auto">
+                      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead className="bg-gray-50 dark:bg-gray-700 sticky top-0">
+                          <tr>
+                            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              Prioridade
+                            </th>
+                            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              N_MEC
+                            </th>
+                            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              Local
+                            </th>
+                            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              Data
+                            </th>
+                            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              Status
+                            </th>
+                            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              OBS
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                          {priorityTableData.map((row) => (
+                            <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                              <td className="px-3 py-2 whitespace-nowrap">
+                                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPriorityClass(row.prioridade)}`}>
+                                  {row.prioridade}
+                                </span>
+                              </td>
+                              <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                                {row.n_mec}
+                              </td>
+                              <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                                {row.local}
+                              </td>
+                              <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                {row.data}
+                              </td>
+                              <td className="px-3 py-2 whitespace-nowrap">
+                                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusClass(row.status)}`}>
+                                  {row.status}
+                                </span>
+                              </td>
+                              <td className="px-3 py-2 text-sm text-gray-900 dark:text-white max-w-xs truncate">
+                                {row.obs}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
