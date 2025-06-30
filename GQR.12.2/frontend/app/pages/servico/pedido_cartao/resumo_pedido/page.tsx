@@ -58,6 +58,7 @@ export default function ResumoPedido() {
                 { name: 'Avaliação Responsável', href: '/pages/servico/pedido_cartao/avaliacao_responsavel', current: false }
       ]
     },
+    { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: true },
   ]
 
   // Estado para ações (exemplo)
