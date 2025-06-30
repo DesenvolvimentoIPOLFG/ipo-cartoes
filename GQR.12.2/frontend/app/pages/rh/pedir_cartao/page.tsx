@@ -1,12 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-import { ChartBarIcon } from '@heroicons/react/24/outline'
-import { Card, CardContent, CardHeader } from '@/app/components/ui/card'
-import { Input } from '@/app/components/ui/input'
-import { Button } from '@/app/components/ui/button'
-import { Label } from '@/app/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/app/components/ui/select'
+import React, { useState } from 'react'
+import { 
+  ChartBarIcon,
+  CheckIcon,
+  XMarkIcon
+} from '@heroicons/react/24/outline'
+
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
 import Sidebar from '@/app/components/navigation/Sidebar'
@@ -72,15 +72,8 @@ export default function PedirCartao() {
     // Add API call here
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
-
-  const handleSelectChange = (name: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -95,82 +88,116 @@ export default function PedirCartao() {
     setCurrentStep(prev => Math.max(prev - 1, 1))
   }
 
+  const handleReset = () => {
+    setFormData({
+      nome: '',
+      num_mec: '',
+      departamento: '',
+      email: '',
+      tipo: '',
+      motivo: '',
+      urgencia: '',
+      data_entrega: '',
+      data_validade: ''
+    })
+  }
+
   const tiposCartao = [
-    { id: 'profissional', label: 'Profissional do IPO' },
-    { id: 'prestador', label: 'Prestador de Serviços' },
+    { value: '', label: 'Selecione o tipo de cartão' },
+    { value: 'profissional_ipo', label: 'Profissional do IPO' },
+    { value: 'prestador_servicos', label: 'Prestador de Serviços' },
   ]
 
   const motivosPedido = [
-    { id: 'primeira_via', label: '1ª Via' },
-    { id: 'segunda_via', label: '2ª Via' },
-    { id: 'perda_dano', label: 'Perda/Dano' },
-    { id: 'outro', label: 'Outro Motivo' },
+    { value: '', label: 'Selecione o motivo' },
+    { value: 'primeira_via', label: '1ª Via' },
+    { value: 'segunda_via', label: '2ª Via' },
+    { value: 'perda_dano', label: 'Perda/Dano' },
+    { value: 'outro', label: 'Outro Motivo' },
   ]
 
   const niveisUrgencia = [
-    { id: 'alta', label: 'Alta' },
-    { id: 'media', label: 'Média' },
-    { id: 'baixa', label: 'Baixa' },
+    { value: '', label: 'Selecione a urgência' },
+    { value: 'alta', label: 'Alta' },
+    { value: 'media', label: 'Média' },
+    { value: 'baixa', label: 'Baixa' },
   ]
 
   const renderStep = () => {
     switch (currentStep) {
       case 1:
         return (
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-6">
+          <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+            <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                 1º PASSO - Dados do Colaborador
               </h3>
+            </div>
+            <div className="p-6">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
-                  <Label htmlFor="nome" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Nome Completo
-                  </Label>
-                  <Input
-                    id="nome"
-                    name="nome"
-                    value={formData.nome}
-                    onChange={handleInputChange}
-                    className="mt-1"
-                  />
+                  <label htmlFor="nome" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Nome Completo *
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      type="text"
+                      id="nome"
+                      name="nome"
+                      value={formData.nome}
+                      onChange={handleInputChange}
+                      className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      placeholder="Digite o nome completo"
+                    />
+                  </div>
                 </div>
                 <div>
-                  <Label htmlFor="num_mec" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Num_Mec
-                  </Label>
-                  <Input
-                    id="num_mec"
-                    name="num_mec"
-                    value={formData.num_mec}
-                    onChange={handleInputChange}
-                    className="mt-1"
-                  />
+                  <label htmlFor="num_mec" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Num_Mec *
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      type="text"
+                      id="num_mec"
+                      name="num_mec"
+                      value={formData.num_mec}
+                      onChange={handleInputChange}
+                      className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      placeholder="Digite o número MEC"
+                    />
+                  </div>
                 </div>
                 <div>
-                  <Label htmlFor="departamento" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Departamento
-                  </Label>
-                  <Input
-                    id="departamento"
-                    name="departamento"
-                    value={formData.departamento}
-                    onChange={handleInputChange}
-                    className="mt-1"
-                  />
+                  <label htmlFor="departamento" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Departamento *
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      type="text"
+                      id="departamento"
+                      name="departamento"
+                      value={formData.departamento}
+                      onChange={handleInputChange}
+                      className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      placeholder="Digite o departamento"
+                    />
+                  </div>
                 </div>
                 <div>
-                  <Label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Email
-                  </Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="mt-1"
-                  />
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Email *
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      placeholder="Digite o email"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -179,73 +206,75 @@ export default function PedirCartao() {
 
       case 2:
         return (
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-6">
+          <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+            <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                 2º PASSO - Dados do Cartão a Pedir
               </h3>
+            </div>
+            <div className="p-6">
               <div className="space-y-6">
                 <div>
-                  <Label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Tipo de Cartão
-                  </Label>
-                  <Select
-                    value={formData.tipo}
-                    onValueChange={(value) => handleSelectChange('tipo', value)}
-                  >
-                    <SelectTrigger className="mt-1">
-                      <SelectValue placeholder="Selecione o tipo de cartão" />
-                    </SelectTrigger>
-                    <SelectContent>
+                  <label htmlFor="tipo" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Tipo de Cartão *
+                  </label>
+                  <div className="mt-1">
+                    <select
+                      id="tipo"
+                      name="tipo"
+                      value={formData.tipo}
+                      onChange={handleInputChange}
+                      className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    >
                       {tiposCartao.map((tipo) => (
-                        <SelectItem key={tipo.id} value={tipo.id}>
+                        <option key={tipo.value} value={tipo.value}>
                           {tipo.label}
-                        </SelectItem>
+                        </option>
                       ))}
-                    </SelectContent>
-                  </Select>
+                    </select>
+                  </div>
                 </div>
 
                 <div>
-                  <Label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Motivo do Pedido
-                  </Label>
-                  <Select
-                    value={formData.motivo}
-                    onValueChange={(value) => handleSelectChange('motivo', value)}
-                  >
-                    <SelectTrigger className="mt-1">
-                      <SelectValue placeholder="Selecione o motivo" />
-                    </SelectTrigger>
-                    <SelectContent>
+                  <label htmlFor="motivo" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Motivo do Pedido *
+                  </label>
+                  <div className="mt-1">
+                    <select
+                      id="motivo"
+                      name="motivo"
+                      value={formData.motivo}
+                      onChange={handleInputChange}
+                      className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    >
                       {motivosPedido.map((motivo) => (
-                        <SelectItem key={motivo.id} value={motivo.id}>
+                        <option key={motivo.value} value={motivo.value}>
                           {motivo.label}
-                        </SelectItem>
+                        </option>
                       ))}
-                    </SelectContent>
-                  </Select>
+                    </select>
+                  </div>
                 </div>
 
                 <div>
-                  <Label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Urgência do Pedido
-                  </Label>
-                  <Select
-                    value={formData.urgencia}
-                    onValueChange={(value) => handleSelectChange('urgencia', value)}
-                  >
-                    <SelectTrigger className="mt-1">
-                      <SelectValue placeholder="Selecione a urgência" />
-                    </SelectTrigger>
-                    <SelectContent>
+                  <label htmlFor="urgencia" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Urgência do Pedido *
+                  </label>
+                  <div className="mt-1">
+                    <select
+                      id="urgencia"
+                      name="urgencia"
+                      value={formData.urgencia}
+                      onChange={handleInputChange}
+                      className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    >
                       {niveisUrgencia.map((nivel) => (
-                        <SelectItem key={nivel.id} value={nivel.id}>
+                        <option key={nivel.value} value={nivel.value}>
                           {nivel.label}
-                        </SelectItem>
+                        </option>
                       ))}
-                    </SelectContent>
-                  </Select>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -254,37 +283,43 @@ export default function PedirCartao() {
 
       case 3:
         return (
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-6">
+          <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+            <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                 3º PASSO - Data de Entrega & Validade do Cartão
               </h3>
+            </div>
+            <div className="p-6">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
-                  <Label htmlFor="data_entrega" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Data de Entrega
-                  </Label>
-                  <Input
-                    id="data_entrega"
-                    name="data_entrega"
-                    type="date"
-                    value={formData.data_entrega}
-                    onChange={handleInputChange}
-                    className="mt-1"
-                  />
+                  <label htmlFor="data_entrega" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Data de Entrega *
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      type="date"
+                      id="data_entrega"
+                      name="data_entrega"
+                      value={formData.data_entrega}
+                      onChange={handleInputChange}
+                      className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    />
+                  </div>
                 </div>
                 <div>
-                  <Label htmlFor="data_validade" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Data de Validade do Cartão
-                  </Label>
-                  <Input
-                    id="data_validade"
-                    name="data_validade"
-                    type="date"
-                    value={formData.data_validade}
-                    onChange={handleInputChange}
-                    className="mt-1"
-                  />
+                  <label htmlFor="data_validade" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Data de Validade do Cartão *
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      type="date"
+                      id="data_validade"
+                      name="data_validade"
+                      value={formData.data_validade}
+                      onChange={handleInputChange}
+                      className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -302,53 +337,53 @@ export default function PedirCartao() {
     { id: 3, name: 'Datas de Entrega e Validade' }
   ]
 
-const renderProgressBar = () => (
-  <div className="mb-8 flex justify-center">
-    <nav className="flex" aria-label="Breadcrumb">
-      <ol className="flex items-center space-x-4">
-        {steps.map((step, index) => (
-          <li key={step.id} className="flex items-center">
-            <div
-              className={`flex items-center px-4 py-2 rounded-full text-sm font-medium ${
-                currentStep > step.id
-                  ? 'bg-green-100 text-green-800'
-                  : currentStep === step.id
-                  ? 'bg-blue-100 text-blue-800'
-                  : 'bg-gray-100 text-gray-500'
-              }`}
-            >
-              <span
-                className={`w-6 h-6 rounded-full flex items-center justify-center text-xs mr-2 ${
+  const renderProgressBar = () => (
+    <div className="mb-8 flex justify-center">
+      <nav className="flex" aria-label="Breadcrumb">
+        <ol className="flex items-center space-x-4">
+          {steps.map((step, index) => (
+            <li key={step.id} className="flex items-center">
+              <div
+                className={`flex items-center px-4 py-2 rounded-full text-sm font-medium ${
                   currentStep > step.id
-                    ? 'bg-green-500 text-white'
+                    ? 'bg-green-100 text-green-800'
                     : currentStep === step.id
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-400 text-white'
+                    ? 'bg-blue-100 text-blue-800'
+                    : 'bg-gray-100 text-gray-500'
                 }`}
               >
-                {currentStep > step.id ? '✓' : step.id}
-              </span>
-              {step.name}
-            </div>
-            {index < steps.length - 1 && (
-              <svg
-                className="w-5 h-5 text-gray-400 mx-2"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            )}
-          </li>
-        ))}
-      </ol>
-    </nav>
-  </div>
-)
+                <span
+                  className={`w-6 h-6 rounded-full flex items-center justify-center text-xs mr-2 ${
+                    currentStep > step.id
+                      ? 'bg-green-500 text-white'
+                      : currentStep === step.id
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-400 text-white'
+                  }`}
+                >
+                  {currentStep > step.id ? '✓' : step.id}
+                </span>
+                {step.name}
+              </div>
+              {index < steps.length - 1 && (
+                <svg
+                  className="w-5 h-5 text-gray-400 mx-2"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </div>
+  )
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -364,38 +399,52 @@ const renderProgressBar = () => (
 
         <main className="flex-1">
           <div className="py-6">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
               {renderProgressBar()}
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 {renderStep()}
 
-                <div className="flex justify-between">
-                  {currentStep > 1 && (
-                    <Button
+                {/* Botões de Ação */}
+                <div className="flex justify-between space-x-3 pt-6">
+                  <div className="flex space-x-3">
+                    {currentStep > 1 && (
+                      <button
+                        type="button"
+                        onClick={handlePreviousStep}
+                        className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
+                        Voltar
+                      </button>
+                    )}
+                    <button
                       type="button"
-                      variant="outline"
-                      onClick={handlePreviousStep}
+                      onClick={handleReset}
+                      className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                      Voltar
-                    </Button>
-                  )}
-                  {currentStep < 3 ? (
-                    <Button
-                      type="button"
-                      onClick={handleNextStep}
-                      className="ml-auto"
-                    >
-                      Próximo
-                    </Button>
-                  ) : (
-                    <Button
-                      type="submit"
-                      className="ml-auto"
-                    >
-                      Submeter
-                    </Button>
-                  )}
+                      <XMarkIcon className="h-4 w-4 mr-2" />
+                      Limpar
+                    </button>
+                  </div>
+                  <div>
+                    {currentStep < 3 ? (
+                      <button
+                        type="button"
+                        onClick={handleNextStep}
+                        className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
+                        Próximo
+                      </button>
+                    ) : (
+                      <button
+                        type="submit"
+                        className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
+                        <CheckIcon className="h-4 w-4 mr-2" />
+                        Submeter
+                      </button>
+                    )}
+                  </div>
                 </div>
               </form>
             </div>
