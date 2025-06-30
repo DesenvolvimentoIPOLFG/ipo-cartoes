@@ -2,20 +2,27 @@
 
 import { useState } from 'react'
 import {
-  ClockIcon,
-  CheckCircleIcon,
-  IdentificationIcon,
-  ExclamationCircleIcon,
-  HomeIcon,
   ChartBarIcon,
+  MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline'
+import { Bar } from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js'
 
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
 import Sidebar from '@/app/components/navigation/Sidebar'
 
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+
 export default function DashboardRiscoSeguranca() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
 
   const notifications = [
@@ -50,15 +57,52 @@ export default function DashboardRiscoSeguranca() {
     { name: 'Cartões Pendentes', value: '29' },
     { name: 'Cartões Ativos', value: '200' },
     { name: 'Cartões Expirados', value: '60' },
-    { name: 'Bloco Operatório', value: '', icon: HomeIcon },
+    { name: 'Pedidos Urgentes', value: '2' },
+    { name: 'Pedidos a Expirar em 7 Dias', value: '15' },
+    { name: 'Taxa de Resposta', value: '85%' },
+    { name: 'Média de Tempo de Resposta', value: '6 horas' },
   ]
 
-  const tableData = [
-    { prioridade: 'Alta', n_mec: '00000', local: 'BLOCO', data: '22/07/2000', status: 'Pendente', obs: '' },
-    { prioridade: 'Média', n_mec: '00000', local: 'ALA B', data: '22/07/2000', status: 'Pendente', obs: '' },
-    { prioridade: 'Alta', n_mec: '00000', local: 'UIPM', data: '22/07/2000', status: 'Pendente', obs: '' },
-    { prioridade: 'Baixa', n_mec: '00000', local: 'GIE', data: '22/07/2000', status: 'Pendente', obs: '' },
+  const priorityChartData = {
+    labels: ['Alta', 'Média', 'Baixa'],
+    datasets: [
+      {
+        label: 'Pedidos',
+        data: [28, 17, 14],
+        backgroundColor: ['#F87171', '#FBBF24', '#34D399'],
+        borderRadius: 4,
+      },
+    ],
+  }
+
+  const priorityChartOptions: any = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        beginAtZero: true,
+        max: 35,
+      },
+    },
+  }
+
+  const priorityTableData = [
+    { prioridade: 'Alta', n_mec: '000000', local: 'BLOCO', data: '22/07/2000', status: 'Pendente', obs1: 'há 2 dias', obs2: 'há 2 dias' },
+    { prioridade: 'Média', n_mec: '000000', local: 'ALA B', data: '22/07/2000', status: 'Pendente', obs1: 'há 4 dias', obs2: 'há 4 dias' },
+    { prioridade: 'Alta', n_mec: '000000', local: 'UIPM', data: '22/07/2000', status: 'Pendente', obs1: 'há 1 dia', obs2: 'há 3 dias' },
+    { prioridade: 'Baixa', n_mec: '000000', local: 'GIE', data: '22/07/2000', status: 'Pendente', obs1: 'há 5 dias', obs2: 'há 3 dias' },
   ]
+
 
   const getPriorityClass = (priority: string) => {
     switch (priority.toLowerCase()) {
@@ -74,7 +118,7 @@ export default function DashboardRiscoSeguranca() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar navigation={navigation} />
 
       <div className="md:pl-64 flex flex-col flex-1">
@@ -86,92 +130,68 @@ export default function DashboardRiscoSeguranca() {
         />
 
         <main className="flex-1">
-          <div className="py-6">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                {stats.map((item) => (
-                  <div
-                    key={item.name}
-                    className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg"
-                  >
-                    <div className="p-5">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0">
-                          {item.icon && <item.icon className="h-6 w-6 text-gray-400" aria-hidden="true" />}
-                        </div>
-                        <div className="ml-5 w-0 flex-1">
-                          <dl>
-                            <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                              {item.name}
-                            </dt>
-                            <dd>
-                              <div className="text-2xl font-semibold text-gray-900 dark:text-white">
-                                {item.value}
-                              </div>
-                            </dd>
-                          </dl>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          <div className="py-8 px-4 sm:px-6 md:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {stats.slice(0, 4).map((item) => (
+                <div key={item.name} className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow">
+                  <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{item.name}</dt>
+                  <dd className="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">{item.value}</dd>
+                </div>
+              ))}
+            </div>
 
-              <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                  Pedidos Recentes
-                </h3>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead className="bg-gray-50 dark:bg-gray-700">
-                      <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Prioridade
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          N_Mec
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Local
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Data
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Status
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Obs
-                        </th>
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {stats.slice(4, 7).map((item) => (
+                    <div key={item.name} className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow">
+                        <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{item.name}</dt>
+                        <dd className="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">{item.value}</dd>
+                    </div>
+                ))}
+            </div>
+
+            <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white">Pedidos por Prioridade</h3>
+                <div className="flex items-center space-x-2">
+                    <button className="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Filtro</button>
+                    <button className="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">Local</button>
+                    <button className="flex items-center px-3 py-1 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50">
+                        <MagnifyingGlassIcon className="h-4 w-4 mr-2" />
+                        Marcar como
+                    </button>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-1 h-64">
+                  <Bar options={priorityChartOptions} data={priorityChartData} />
+                </div>
+                <div className="lg:col-span-2 overflow-x-auto">
+                  <table className="min-w-full">
+                    <thead>
+                      <tr className="border-b border-gray-200 dark:border-gray-700">
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Prioridade</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">N.Mec</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Local</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Data</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Status</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Obs</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Obs</th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                      {tableData.map((row, index) => (
-                        <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <span
-                              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getPriorityClass(
-                                row.prioridade
-                              )}`}
-                            >
+                    <tbody className="bg-white dark:bg-gray-800">
+                      {priorityTableData.map((row, index) => (
+                        <tr key={index} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                          <td className="px-4 py-2 whitespace-nowrap text-sm font-medium">
+                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getPriorityClass(row.prioridade)}`}>
                               {row.prioridade}
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            {row.n_mec}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                            {row.local}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            {row.data}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            {row.status}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            {row.obs}
-                          </td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{row.n_mec}</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900 dark:text-white">{row.local}</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{row.data}</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{row.status}</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{row.obs1}</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{row.obs2}</td>
                         </tr>
                       ))}
                     </tbody>
