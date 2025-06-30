@@ -1,4 +1,4 @@
-import { ChartBarIcon, ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import { ChartBarIcon, ChevronDownIcon, ChevronRightIcon, ShieldCheckIcon } from '@heroicons/react/24/outline'
 import { useState, useEffect } from 'react'
 
 interface SubNavigationItem {

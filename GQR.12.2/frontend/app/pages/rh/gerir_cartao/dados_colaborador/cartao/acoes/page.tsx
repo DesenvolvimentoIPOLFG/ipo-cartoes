@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import {
-  ChartBarIcon,
   MagnifyingGlassIcon,
   XMarkIcon,
   CheckIcon,
@@ -16,6 +15,7 @@ import {
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
 import Sidebar from '@/app/components/navigation/Sidebar'
+import { getNavigationForSection } from '@/app/config/navigation'
 
 export default function AcoesCartao() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
@@ -50,22 +50,20 @@ export default function AcoesCartao() {
     },
   ]
 
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/rh/dashboard', icon: ChartBarIcon, current: false },
-    { name: 'Pedir Cartão', href: '/pages/rh/pedir_cartao', icon: ChartBarIcon, current: false },
-    { name: 'Validar 2ª Via', href: '/pages/rh/validar2via', icon: ChartBarIcon, current: false },
-    {
-      name: 'Gerir Cartão',
-      href: '/pages/rh/gerir_cartao',
-      icon: ChartBarIcon,
-      current: true,
-      subItems: [
-        { name: 'Dados do Colaborador', href: '/pages/rh/gerir_cartao/dados_colaborador', current: false },
-        { name: 'Cartão', href: '/pages/rh/gerir_cartao/dados_colaborador/cartao', current: false },
-        { name: 'Ações', href: '/pages/rh/gerir_cartao/dados_colaborador/cartao/acoes', current: true }
-      ]
-    },
-  ]
+  // Get navigation from centralized config and add subItems for Gerir Cartão
+  const navigation = getNavigationForSection('rh', '/pages/rh/gerir_cartao/dados_colaborador/cartao/acoes').map(item => {
+    if (item.name === 'Gerir Cartão') {
+      return {
+        ...item,
+        subItems: [
+          { name: 'Dados do Colaborador', href: '/pages/rh/gerir_cartao/dados_colaborador', current: false },
+          { name: 'Cartão', href: '/pages/rh/gerir_cartao/dados_colaborador/cartao', current: false },
+          { name: 'Ações', href: '/pages/rh/gerir_cartao/dados_colaborador/cartao/acoes', current: true }
+        ]
+      }
+    }
+    return item
+  })
 
   // Função para cor e texto do estado do cartão
   const getEstadoCartao = () => {

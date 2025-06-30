@@ -19,6 +19,7 @@ import {
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
 import Sidebar from '@/app/components/navigation/Sidebar'
+import { getNavigationForSection } from '@/app/config/navigation'
 
 export default function DashboardRiscoSeguranca() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
@@ -47,9 +48,7 @@ export default function DashboardRiscoSeguranca() {
     },
   ]
 
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/rs/dashboard', icon: ChartBarIcon, current: true },
-  ]
+  const navigation = getNavigationForSection('rs', '/pages/rs/dashboard')
 
   const stats = [
     { 
