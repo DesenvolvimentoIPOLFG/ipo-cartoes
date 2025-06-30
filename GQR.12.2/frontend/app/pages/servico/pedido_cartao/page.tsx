@@ -69,6 +69,21 @@ export default function PedidoCartaoServico() {
     },
   ]
 
+  // Sidebar navigation with subItems for Resumo Pedido
+  const navigation = [
+    { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: false },
+    {
+      name: 'Pedido_Cartão',
+      href: '/pages/servico/pedido_cartao',
+      icon: ChartBarIcon,
+      current: true,
+      subItems: [
+        { name: 'Resumo Pedido', href: '/pages/servico/pedido_cartao/resumo_pedido', current: false },
+        { name: 'Acessos Solicitados', href: '/pages/servico/pedido_cartao/acessos_solicitados', current: false }
+      ]
+    },
+  ]
+
   const filteredData = tagsFilter
     ? tableData.filter(row => row.tags.includes(tagsFilter))
     : tableData
@@ -98,10 +113,7 @@ export default function PedidoCartaoServico() {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-      <Sidebar navigation={[
-        { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: false },
-        { name: 'Pedido_Cartão', href: '/pages/servico/pedido_cartao', icon: ChartBarIcon, current: true },
-      ]} />
+      <Sidebar navigation={navigation} />
 
       <div className="md:pl-64 flex flex-col flex-1">
         <Navbar
