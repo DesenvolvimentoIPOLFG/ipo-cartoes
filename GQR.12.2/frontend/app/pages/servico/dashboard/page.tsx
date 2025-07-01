@@ -39,8 +39,8 @@ export default function DashboardServico() {
 
   const navigation = [
     { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: true },
-    { name: 'Pedido_Cartão', href: '/pages/servico/pedido_cartao', icon: ChartBarIcon, current: true },
-    { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: true },
+    { name: 'Pedido_Cartão', href: '/pages/servico/pedido_cartao', icon: ChartBarIcon, current: false },
+    { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: false },
   ]
 
   // Estatísticas dos cartões

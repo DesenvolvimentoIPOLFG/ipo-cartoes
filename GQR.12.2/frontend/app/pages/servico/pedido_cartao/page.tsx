@@ -84,7 +84,7 @@ export default function PedidoCartaoServico() {
         { name: 'Historico', href: '/pages/servico/pedido_cartao/historico', current: false }
       ]
     },
-    { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: true },
+    { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: false },
   ]
 
   const filteredData = tagsFilter
