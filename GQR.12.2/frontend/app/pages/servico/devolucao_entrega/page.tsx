@@ -60,6 +60,11 @@ export default function DevolucaoEntregaPage() {
       href: '/pages/servico/devolucao_entrega',
       icon: ChartBarIcon,
       current: true,
+      subItems: [
+        { name: 'Detalhes do Pedido', href: '/pages/servico/devolucao_entrega/detalhes_pedido', current: false },
+        { name: 'Ação Devolução', href: '/pages/servico/devolucao_entrega/acao_devolucao', current: false },
+        { name: 'Historico', href: '/pages/servico/devolucao_entrega/historico', current: false },
+      ],
     },
   ];
 
