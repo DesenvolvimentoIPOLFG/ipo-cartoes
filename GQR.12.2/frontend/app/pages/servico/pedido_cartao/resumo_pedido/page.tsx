@@ -56,7 +56,7 @@ export default function ResumoPedido() {
         { name: 'Resumo Pedido', href: '/pages/servico/pedido_cartao/resumo_pedido', current: true },
         { name: 'Acessos Solicitados', href: '/pages/servico/pedido_cartao/acessos_solicitados', current: false },
         { name: 'Avaliação Responsável', href: '/pages/servico/pedido_cartao/avaliacao_responsavel', current: false },
-        { name: 'Historico', href: '/pages/servico/pedido_cartao/historico', current: true }
+        { name: 'Historico', href: '/pages/servico/pedido_cartao/historico', current: false }
       ]
     },
     { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: true },
