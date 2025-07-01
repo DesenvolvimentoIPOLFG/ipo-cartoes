@@ -3,31 +3,18 @@
 import { useState } from 'react'
 import {
   ChartBarIcon,
+  CreditCardIcon,
   MagnifyingGlassIcon,
   CheckCircleIcon,
   XCircleIcon,
   ExclamationTriangleIcon,
   ArrowPathIcon,
+  ClockIcon,
 } from '@heroicons/react/24/outline'
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
 import Sidebar from '@/app/components/navigation/Sidebar'
-
-// Sparkline simples (pode ser substituído por um componente real)
-function Sparkline({ data }: { data: number[] }) {
-  const max = Math.max(...data)
-  const points = data.map((v, i) => `${i * 20},${40 - (v / max) * 40}`).join(' ')
-  return (
-    <svg width="120" height="40" className="inline-block align-middle">
-      <polyline
-        fill="none"
-        stroke="#6366f1"
-        strokeWidth="3"
-        points={points}
-      />
-    </svg>
-  )
-}
+import { getNavigationForSection } from '@/app/config/navigation'
 
 export default function DashboardServico() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
@@ -37,54 +24,100 @@ export default function DashboardServico() {
   const [dataInicio, setDataInicio] = useState('')
   const [dataFim, setDataFim] = useState('')
 
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: true },
-    { name: 'Pedido_Cartão', href: '/pages/servico/pedido_cartao', icon: ChartBarIcon, current: false },
-    { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: false },
+  const navigation = getNavigationForSection('servico', '/pages/servico/dashboard')
+
+  const notifications = [
+    {
+      id: 1,
+      title: 'Novo Pedido de Cartão',
+      description: 'Pedido de 2ª via recebido para análise.',
+      time: 'Há 1 hora',
+      status: 'new',
+    },
+    {
+      id: 2,
+      title: 'Cartão Aprovado',
+      description: 'Cartão de acesso aprovado e pronto para entrega.',
+      time: 'Há 3 horas',
+      status: 'success',
+    },
   ]
 
   // Estatísticas dos cartões
   const stats = [
-    { name: 'Cartões Ativos', value: 10 },
-    { name: 'Cartões Pendentes', value: 5 },
-    { name: '2º Via Pendentes', value: 3 },
-    { name: 'Cartões Desativados', value: 6 },
+    { 
+      name: 'Cartões Ativos', 
+      value: '156',
+      icon: CheckCircleIcon,
+      color: 'text-green-500'
+    },
+    { 
+      name: 'Cartões Pendentes', 
+      value: '23',
+      icon: ClockIcon,
+      color: 'text-yellow-500'
+    },
+    { 
+      name: '2ª Via Pendentes', 
+      value: '8',
+      icon: ExclamationTriangleIcon,
+      color: 'text-orange-500'
+    },
+    { 
+      name: 'Cartões Desativados', 
+      value: '42',
+      icon: XCircleIcon,
+      color: 'text-red-500'
+    },
   ]
 
-  // Sparkline e percentagem de conclusão (exemplo)
-  const sparklineData = [2, 4, 6, 5, 8, 7, 9, 10, 8, 12, 11, 13]
-  const percentConclusao = 75
-
-  // Dados da tabela
+  // Dados da tabela expandidos com mais entradas
   const tableData = [
-    { nome: 'JOAQUIM', numec: '00000', estado: 'PENDENTE', data: '2024-06-20', tipo: '2ª VIA', dias: 2 },
-    { nome: 'JOAQUIM', numec: '00000', estado: 'PENDENTE', data: '2024-06-10', tipo: '1ª VIA', dias: 15 },
-    { nome: 'JOAQUIM', numec: '00000', estado: 'ATIVO', data: '2024-06-01', tipo: '1ª VIA', dias: 0 },
-    { nome: 'JOAQUIM', numec: '00000', estado: 'DESATIVADO', data: '2024-05-15', tipo: '2ª VIA', dias: 0 },
+    { nome: 'JOAQUIM', n_mec: '00000', estado: 'PENDENTE', data: '22/07/2000', tipo_pedido: '2ª VIA' },
+    { nome: 'JOAQUIM', n_mec: '00000', estado: 'PENDENTE', data: '22/07/2000', tipo_pedido: '1ª VIA' },
+    { nome: 'JOAQUIM', n_mec: '00000', estado: 'PENDENTE', data: '22/07/2000', tipo_pedido: '1ª VIA' },
+    { nome: 'JOAQUIM', n_mec: '00000', estado: 'PENDENTE', data: '22/07/2000', tipo_pedido: '2ª VIA' },
+    { nome: 'MARIA SILVA', n_mec: '00001', estado: 'ATIVO', data: '15/06/2024', tipo_pedido: '1ª VIA' },
+    { nome: 'CARLOS SANTOS', n_mec: '00002', estado: 'PENDENTE', data: '20/07/2024', tipo_pedido: '2ª VIA' },
+    { nome: 'ANA COSTA', n_mec: '00003', estado: 'DESATIVADO', data: '10/05/2024', tipo_pedido: '1ª VIA' },
+    { nome: 'PEDRO OLIVEIRA', n_mec: '00004', estado: 'ATIVO', data: '18/07/2024', tipo_pedido: '1ª VIA' },
+    { nome: 'SOFIA RODRIGUES', n_mec: '00005', estado: 'PENDENTE', data: '25/07/2024', tipo_pedido: '2ª VIA' },
+    { nome: 'MIGUEL PEREIRA', n_mec: '00006', estado: 'ATIVO', data: '12/07/2024', tipo_pedido: '1ª VIA' },
+    { nome: 'CATARINA LOPES', n_mec: '00007', estado: 'PENDENTE', data: '28/07/2024', tipo_pedido: '2ª VIA' },
+    { nome: 'RICARDO MARTINS', n_mec: '00008', estado: 'DESATIVADO', data: '05/06/2024', tipo_pedido: '1ª VIA' },
+    { nome: 'TERESA SILVA', n_mec: '00009', estado: 'ATIVO', data: '30/07/2024', tipo_pedido: '1ª VIA' },
+    { nome: 'BRUNO COSTA', n_mec: '00010', estado: 'PENDENTE', data: '01/08/2024', tipo_pedido: '2ª VIA' },
+    { nome: 'INÊS FERNANDES', n_mec: '00011', estado: 'ATIVO', data: '22/07/2024', tipo_pedido: '1ª VIA' },
+    { nome: 'LUÍS SOARES', n_mec: '00012', estado: 'DESATIVADO', data: '15/05/2024', tipo_pedido: '2ª VIA' },
+    { nome: 'PATRÍCIA ALVES', n_mec: '00013', estado: 'PENDENTE', data: '02/08/2024', tipo_pedido: '1ª VIA' },
+    { nome: 'RUI CARVALHO', n_mec: '00014', estado: 'ATIVO', data: '25/07/2024', tipo_pedido: '2ª VIA' },
+    { nome: 'HELENA DIAS', n_mec: '00015', estado: 'PENDENTE', data: '03/08/2024', tipo_pedido: '1ª VIA' },
+    { nome: 'JOÃO FERREIRA', n_mec: '00016', estado: 'ATIVO', data: '28/07/2024', tipo_pedido: '2ª VIA' },
+    { nome: 'MARIANA GOMES', n_mec: '00017', estado: 'DESATIVADO', data: '20/06/2024', tipo_pedido: '1ª VIA' },
+    { nome: 'ANDRÉ RIBEIRO', n_mec: '00018', estado: 'PENDENTE', data: '04/08/2024', tipo_pedido: '2ª VIA' },
+    { nome: 'CRISTINA MOURA', n_mec: '00019', estado: 'ATIVO', data: '31/07/2024', tipo_pedido: '1ª VIA' },
+    { nome: 'NUNO TEIXEIRA', n_mec: '00020', estado: 'PENDENTE', data: '05/08/2024', tipo_pedido: '2ª VIA' }
   ]
 
   // Filtros
   const filteredData = tableData.filter(row => {
     const searchMatch =
       row.nome.toLowerCase().includes(search.toLowerCase()) ||
-      row.numec.includes(search) ||
-      row.tipo.toLowerCase().includes(search.toLowerCase())
+      row.n_mec.includes(search) ||
+      row.tipo_pedido.toLowerCase().includes(search.toLowerCase())
     const estadoMatch = estadoFilter ? row.estado === estadoFilter : true
-    const tipoMatch = tipoFilter ? row.tipo === tipoFilter : true
-    const dataMatch =
-      (!dataInicio || row.data >= dataInicio) &&
-      (!dataFim || row.data <= dataFim)
-    return searchMatch && estadoMatch && tipoMatch && dataMatch
+    const tipoMatch = tipoFilter ? row.tipo_pedido === tipoFilter : true
+    return searchMatch && estadoMatch && tipoMatch
   })
 
-  // Cores por estado (corrigido para evitar erro TS)
+  // Cores por estado
   const estadoColor: Record<string, string> = {
-    'ATIVO': 'bg-green-100 text-green-800',
-    'PENDENTE': 'bg-yellow-100 text-yellow-800',
-    'DESATIVADO': 'bg-red-100 text-red-800',
+    'ATIVO': 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100',
+    'PENDENTE': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100',
+    'DESATIVADO': 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100',
   }
 
-  // Ações rápidas (exemplo)
+  // Ações rápidas
   function handleAprovar(idx: number) {
     alert(`Pedido de ${filteredData[idx].nome} aprovado!`)
   }
@@ -109,53 +142,40 @@ export default function DashboardServico() {
         <main className="flex-1">
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-
-              {/* Indicadores Avançados */}
-              <div className="flex flex-col lg:flex-row gap-6 mb-8">
-                <div className="flex-1 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                  {stats.map((item) => (
-                    <div
-                      key={item.name}
-                      className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg"
-                    >
-                      <div className="p-5">
-                        <div className="flex items-center">
-                          <div className="ml-0 w-0 flex-1">
-                            <dl>
-                              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                                {item.name}
-                              </dt>
-                              <dd className="flex items-baseline">
-                                <div className="text-2xl font-semibold text-gray-900 dark:text-white">
-                                  {item.value}
-                                </div>
-                              </dd>
-                            </dl>
-                          </div>
+              {/* Stats Cards */}
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+                {stats.map((item) => (
+                  <div
+                    key={item.name}
+                    className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg"
+                  >
+                    <div className="p-4">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                          <item.icon className={`h-6 w-6 ${item.color}`} aria-hidden="true" />
+                        </div>
+                        <div className="ml-3 w-0 flex-1">
+                          <dl>
+                            <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                              {item.name}
+                            </dt>
+                            <dd className="flex items-baseline">
+                              <div className="text-2xl font-semibold text-gray-900 dark:text-white">
+                                {item.value}
+                              </div>
+                            </dd>
+                          </dl>
                         </div>
                       </div>
                     </div>
-                  ))}
-                </div>
-                <div className="flex flex-col items-center justify-center bg-white dark:bg-gray-800 rounded-lg shadow p-4 min-w-[220px]">
-                  <span className="text-sm text-gray-500 dark:text-gray-300 mb-2">Evolução 2ª Via (mês)</span>
-                  <Sparkline data={sparklineData} />
-                  <span className="mt-2 text-sm text-gray-700 dark:text-gray-200">
-                    75% dos pedidos de 2ª via aprovados este mês
-                  </span>
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-2">
-                    <div
-                      className="bg-indigo-600 h-2 rounded-full"
-                      style={{ width: `${percentConclusao}%` }}
-                    />
                   </div>
-                </div>
+                ))}
               </div>
 
               {/* Filtros e Pesquisa */}
               <div className="flex flex-col md:flex-row md:items-end gap-4 mb-6">
-                <div className="flex-1 flex gap-2">
-                  <div className="relative w-full">
+                <div className="flex-1">
+                  <div className="relative">
                     <MagnifyingGlassIcon className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                     <input
                       type="text"
@@ -167,146 +187,124 @@ export default function DashboardServico() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Estado</label>
                   <select
                     value={estadoFilter}
                     onChange={e => setEstadoFilter(e.target.value)}
                     className="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white py-2 px-3"
                   >
-                    <option value="">Todos</option>
+                    <option value="">Todos os Estados</option>
                     <option value="ATIVO">Ativo</option>
                     <option value="PENDENTE">Pendente</option>
                     <option value="DESATIVADO">Desativado</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de Pedido</label>
                   <select
                     value={tipoFilter}
                     onChange={e => setTipoFilter(e.target.value)}
                     className="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white py-2 px-3"
                   >
-                    <option value="">Todos</option>
+                    <option value="">Todos os Tipos</option>
                     <option value="1ª VIA">1ª Via</option>
                     <option value="2ª VIA">2ª Via</option>
                   </select>
                 </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Data início</label>
-                  <input
-                    type="date"
-                    value={dataInicio}
-                    onChange={e => setDataInicio(e.target.value)}
-                    className="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white py-2 px-3"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Data fim</label>
-                  <input
-                    type="date"
-                    value={dataFim}
-                    onChange={e => setDataFim(e.target.value)}
-                    className="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white py-2 px-3"
-                  />
-                </div>
               </div>
 
               {/* Tabela */}
-              <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                  Cartões Pendentes
-                </h3>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead className="bg-gray-50 dark:bg-gray-700">
-                      <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Nome
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          N_MEC
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Estado
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Data
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Tipo Pedido
-                        </th>
-                        <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Ações
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                      {filteredData.map((row, idx) => (
-                        <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white flex items-center gap-2">
-                            {row.nome}
-                            {/* Alerta se pendente há mais de 7 dias */}
-                            {row.estado === 'PENDENTE' && row.dias > 7 && (
-                              <ExclamationTriangleIcon className="h-5 w-5 text-yellow-500" title="Pendente há mais de 7 dias" />
-                            )}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                            {row.numec}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm">
-                            <span className={`inline-flex items-center px-2 py-1 rounded-full font-semibold text-xs ${estadoColor[row.estado] || 'bg-gray-200 text-gray-800'}`}>
-                              {row.estado}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                            {row.data.split('-').reverse().join('/')}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                            {row.tipo}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
-                            {row.estado === 'PENDENTE' ? (
-                              <div className="flex justify-center gap-2">
-                                <button
-                                  onClick={() => handleAprovar(idx)}
-                                  className="inline-flex items-center px-2 py-1 rounded bg-green-100 text-green-800 hover:bg-green-200 transition"
-                                  title="Aprovar"
-                                  type="button"
-                                >
-                                  <CheckCircleIcon className="h-5 w-5 mr-1" />
-                                  Aprovar
-                                </button>
-                                <button
-                                  onClick={() => handleRecusar(idx)}
-                                  className="inline-flex items-center px-2 py-1 rounded bg-red-100 text-red-800 hover:bg-red-200 transition"
-                                  title="Recusar"
-                                  type="button"
-                                >
-                                  <XCircleIcon className="h-5 w-5 mr-1" />
-                                  Recusar
-                                </button>
-                              </div>
-                            ) : (
-                              <button
-                                onClick={() => handleToggleAtivar(idx)}
-                                className="inline-flex items-center px-2 py-1 rounded bg-indigo-100 text-indigo-800 hover:bg-indigo-200 transition"
-                                title={row.estado === 'ATIVO' ? 'Desativar' : 'Ativar'}
-                                type="button"
-                              >
-                                <ArrowPathIcon className="h-5 w-5 mr-1" />
-                                {row.estado === 'ATIVO' ? 'Desativar' : 'Ativar'}
-                              </button>
-                            )}
-                          </td>
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">Gestão de Cartões</h3>
+                </div>
+                <div className="overflow-hidden">
+                  <div className="max-h-96 overflow-y-auto">
+                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                      <thead className="bg-gray-50 dark:bg-gray-700 sticky top-0">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Nome
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            N_MEC
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Estado
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Data
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Tipo Pedido
+                          </th>
+                          <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Ações
+                          </th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  {filteredData.length === 0 && (
-                    <div className="text-center text-gray-500 dark:text-gray-300 py-8">
-                      Nenhum resultado encontrado.
-                    </div>
-                  )}
+                      </thead>
+                      <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        {filteredData.map((row, idx) => (
+                          <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                              {row.nome}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                              {row.n_mec}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm">
+                              <span className={`inline-flex items-center px-2 py-1 rounded-full font-semibold text-xs ${estadoColor[row.estado] || 'bg-gray-200 text-gray-800'}`}>
+                                {row.estado}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                              {row.data}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                              {row.tipo_pedido}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
+                              {row.estado === 'PENDENTE' ? (
+                                <div className="flex justify-center gap-2">
+                                  <button
+                                    onClick={() => handleAprovar(idx)}
+                                    className="inline-flex items-center px-2 py-1 rounded bg-green-100 text-green-800 hover:bg-green-200 transition text-xs"
+                                    title="Aprovar"
+                                    type="button"
+                                  >
+                                    <CheckCircleIcon className="h-4 w-4 mr-1" />
+                                    Aprovar
+                                  </button>
+                                  <button
+                                    onClick={() => handleRecusar(idx)}
+                                    className="inline-flex items-center px-2 py-1 rounded bg-red-100 text-red-800 hover:bg-red-200 transition text-xs"
+                                    title="Recusar"
+                                    type="button"
+                                  >
+                                    <XCircleIcon className="h-4 w-4 mr-1" />
+                                    Recusar
+                                  </button>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => handleToggleAtivar(idx)}
+                                  className="inline-flex items-center px-2 py-1 rounded bg-indigo-100 text-indigo-800 hover:bg-indigo-200 transition text-xs"
+                                  title={row.estado === 'ATIVO' ? 'Desativar' : 'Ativar'}
+                                  type="button"
+                                >
+                                  <ArrowPathIcon className="h-4 w-4 mr-1" />
+                                  {row.estado === 'ATIVO' ? 'Desativar' : 'Ativar'}
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {filteredData.length === 0 && (
+                      <div className="text-center text-gray-500 dark:text-gray-300 py-8">
+                        Nenhum resultado encontrado.
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -317,7 +315,7 @@ export default function DashboardServico() {
       <NotificationsPanel
         isOpen={notificationsOpen}
         setIsOpen={setNotificationsOpen}
-        notifications={[]}
+        notifications={notifications}
       />
     </div>
   )

@@ -1,5 +1,6 @@
 import { ChartBarIcon, ChevronDownIcon, ChevronRightIcon, ShieldCheckIcon } from '@heroicons/react/24/outline'
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 interface SubNavigationItem {
   name: string
@@ -42,7 +43,9 @@ export default function Sidebar({ navigation }: SidebarProps) {
     <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
       <div className="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 pt-5">
         <div className="flex flex-shrink-0 items-center px-4">
-          <img className="h-16 w-auto" src="/logos/IPOv2_1.png" alt="IPO Lisboa" />
+          <Link href="/" className="cursor-pointer">
+            <img className="h-16 w-auto hover:opacity-80 transition-opacity" src="/logos/IPOv2_1.png" alt="IPO Lisboa" />
+          </Link>
         </div>
         <div className="mt-5 flex-grow flex flex-col">
           <nav className="flex-1 px-2 pb-4 space-y-1">
