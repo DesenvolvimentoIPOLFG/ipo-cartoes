@@ -4,12 +4,6 @@ import { useState } from "react";
 import {
   ChartBarIcon,
   MagnifyingGlassIcon,
-  ArrowPathIcon,
-  TagIcon,
-  CheckCircleIcon,
-  ChatBubbleLeftRightIcon,
-  XCircleIcon,
-  ChevronDownIcon,
 } from '@heroicons/react/24/outline'
 import NotificationsPanel from "../../../components/notifications/NotificationsPanel";
 import Navbar from "../../../components/navigation/Navbar";
@@ -28,17 +22,17 @@ function StatusEntrega({ status }: { status: string }) {
 export default function DevolucaoEntregaPage() {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
-  const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
-  const [autoRefresh, setAutoRefresh] = useState(true);
-  const [showChecklist, setShowChecklist] = useState(false);
-  const [expandedRow, setExpandedRow] = useState<number | null>(null);
-  const [tagsFilter, setTagsFilter] = useState('');
 
   const tableData = [
     { id: 1, nome: 'Joaquim', inec: '00000', motivo: 'Perda', data: '22/07/2000', estado: 'PENDENTE' },
     { id: 2, nome: 'Joaquim', inec: '00000', motivo: 'Perda', data: '22/07/2000', estado: 'PENDENTE' },
     { id: 3, nome: 'Joaquim', inec: '00000', motivo: 'Perda', data: '22/07/2000', estado: 'PENDENTE' },
     { id: 4, nome: 'Joaquim', inec: '00000', motivo: 'Perda', data: '22/07/2000', estado: 'PENDENTE' },
+    { id: 5, nome: 'Joaquim', inec: '00000', motivo: 'Perda', data: '22/07/2000', estado: 'PENDENTE' },
+    { id: 6, nome: 'Joaquim', inec: '00000', motivo: 'Perda', data: '22/07/2000', estado: 'PENDENTE' },
+    { id: 7, nome: 'Joaquim', inec: '00000', motivo: 'Perda', data: '22/07/2000', estado: 'PENDENTE' },
+    { id: 8, nome: 'Joaquim', inec: '00000', motivo: 'Perda', data: '22/07/2000', estado: 'PENDENTE' },
+    { id: 9, nome: 'Joaquim', inec: '00000', motivo: 'Perda', data: '22/07/2000', estado: 'PENDENTE' },
   ];
 
   const notificacoes = [
@@ -60,6 +54,7 @@ export default function DevolucaoEntregaPage() {
 
   const navigation = [
     { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: false },
+    { name: 'Pedido_Cartão', href: '/pages/servico/pedido_cartao', icon: ChartBarIcon, current: true },
     {
       name: 'Devolução/Entrega',
       href: '/pages/servico/devolucao_entrega',
@@ -76,16 +71,6 @@ export default function DevolucaoEntregaPage() {
     )
   }
 
-  function handleManualRefresh() {
-    setLastUpdate(new Date())
-  }
-
-  const checklistSteps = [
-    'Verificar integridade do cartão',
-    'Confirmar dados do colaborador',
-    'Registrar devolução/entrega no sistema',
-  ]
-
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <Sidebar navigation={navigation} />
@@ -97,25 +82,28 @@ export default function DevolucaoEntregaPage() {
         />
         <main className="flex-1">
           <div className="py-6">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
-              {/* Quick Links e Filtros */}
-              <div className="flex flex-col md:flex-row gap-4 mb-6">
-                <div className="flex-1 flex flex-row gap-2">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
+              {/* Cards de status maiores, transparentes e com efeito hover */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                <div className="flex flex-col items-center p-5 rounded transition-transform duration-200 hover:scale-105 cursor-pointer">
+                  <span className="text-base text-gray-500 dark:text-gray-300 mb-1">Total para resolver</span>
+                  <span className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">0</span>
                 </div>
-                <div className="flex flex-col gap-2 items-end">
-                  <div className="flex items-center gap-2 mt-2">
-                    <span className="text-xs text-gray-500 dark:text-gray-300">
-                      Atualizado há {Math.round((Date.now() - lastUpdate.getTime()) / 60000)} min
-                    </span>
-                  </div>
+                <div className="flex flex-col items-center p-5 rounded transition-transform duration-200 hover:scale-105 cursor-pointer">
+                  <span className="text-base text-gray-500 dark:text-gray-300 mb-1">Pendentes</span>
+                  <span className="text-3xl font-bold text-yellow-500 dark:text-yellow-400">0</span>
+                </div>
+                <div className="flex flex-col items-center p-5 rounded transition-transform duration-200 hover:scale-105 cursor-pointer">
+                  <span className="text-base text-gray-500 dark:text-gray-300 mb-1">Concluido</span>
+                  <span className="text-3xl font-bold text-green-600 dark:text-green-400">0</span>
                 </div>
               </div>
-              {/* Tabela */}
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+              {/* Tabela com form maior e scroll interno */}
+              <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow" style={{ height: 600 }}>
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
                   Devolução e Entrega do Cartão
                 </h3>
-                <div className="overflow-x-auto">
+                <div className="overflow-y-auto h-[480px]">
                   <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead className="bg-gray-50 dark:bg-gray-700">
                       <tr>
