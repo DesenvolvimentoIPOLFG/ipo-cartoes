@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import {
-  ChartBarIcon,
   CalendarDaysIcon,
   CheckCircleIcon,
   UserIcon,
@@ -14,6 +13,7 @@ import {
 import Sidebar from '@/app/components/navigation/Sidebar'
 import Navbar from '@/app/components/navigation/Navbar'
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
+import { getNavigationForSection } from '@/app/config/navigation'
 
 export default function AcaoDevolucaoPage() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
@@ -71,21 +71,8 @@ export default function AcaoDevolucaoPage() {
     { acao: 'Cartão entregue', user: 'Ana Silva', data: '2025-07-02 09:00' },
   ]
 
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: false },
-    { name: 'Pedido_Cartão', href: '/pages/servico/pedido_cartao', icon: ChartBarIcon, current: false },
-    {
-      name: 'Devolução/Entrega',
-      href: '/pages/servico/devolucao_entrega',
-      icon: ChartBarIcon,
-      current: false,
-      subItems: [
-        { name: 'Detalhes do Pedido', href: '/pages/servico/devolucao_entrega/detalhes_pedido', current: false },
-        { name: 'Ação Devolução', href: '/pages/servico/devolucao_entrega/acao_devolucao', current: true },
-        { name: 'Historico', href: '/pages/servico/devolucao_entrega/historico', current: false },
-      ],
-    },
-  ]
+  // Use centralized navigation
+  const navigation = getNavigationForSection('servico', '/pages/servico/devolucao_entrega/acao_devolucao')
 
   const notificacoes = [
     {

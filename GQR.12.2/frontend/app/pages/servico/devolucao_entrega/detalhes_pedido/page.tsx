@@ -1,31 +1,19 @@
 'use client'
 
 import { useState } from 'react'
-import { ChartBarIcon, UserIcon, CreditCardIcon, PaperClipIcon, CheckCircleIcon, ExclamationTriangleIcon, ClockIcon } from '@heroicons/react/24/outline'
+import { UserIcon, CreditCardIcon, PaperClipIcon, CheckCircleIcon, ExclamationTriangleIcon, ClockIcon } from '@heroicons/react/24/outline'
 import Sidebar from '@/app/components/navigation/Sidebar'
 import Navbar from '@/app/components/navigation/Navbar'
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
+import { getNavigationForSection } from '@/app/config/navigation'
 
 export default function DetalhesPedidoPage() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [observacao, setObservacao] = useState('')
   const [anexos, setAnexos] = useState<File[]>([])
 
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: false },
-    { name: 'Pedido_Cartão', href: '/pages/servico/pedido_cartao', icon: ChartBarIcon, current: false },
-    {
-      name: 'Devolução/Entrega',
-      href: '/pages/servico/devolucao_entrega',
-      icon: ChartBarIcon,
-      current: false,
-      subItems: [
-        { name: 'Detalhes do Pedido', href: '/pages/servico/devolucao_entrega/detalhes_pedido', current: true },
-        { name: 'Ação Devolução', href: '/pages/servico/devolucao_entrega/acao_devolucao', current: false },
-        { name: 'Historico', href: '/pages/servico/devolucao_entrega/historico', current: false },
-      ],
-    },
-  ]
+  // Use centralized navigation
+  const navigation = getNavigationForSection('servico', '/pages/servico/devolucao_entrega/detalhes_pedido')
 
   const notificacoes = [
     {

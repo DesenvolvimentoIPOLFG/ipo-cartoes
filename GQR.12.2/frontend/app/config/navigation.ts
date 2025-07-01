@@ -60,7 +60,17 @@ export const navigationConfig: NavigationConfig = {
         { name: 'Historico', href: '/pages/servico/pedido_cartao/historico', current: false }
       ]
     },
-    { name: 'Devolução/Entrga', href: '/pages/servico/devolucao_entrega', icon: TruckIcon, current: false }
+    { 
+      name: 'Devolução/Entrega', 
+      href: '/pages/servico/devolucao_entrega', 
+      icon: TruckIcon, 
+      current: false,
+      subItems: [
+        { name: 'Ação Devolução', href: '/pages/servico/devolucao_entrega/acao_devolucao', current: false },
+        { name: 'Detalhes Pedido', href: '/pages/servico/devolucao_entrega/detalhes_pedido', current: false },
+        { name: 'Histórico', href: '/pages/servico/devolucao_entrega/historico', current: false }
+      ]
+    }
   ],
   ipo: [
     { name: 'Dashboard', href: '/pages/ipo/dashboard', icon: BuildingOfficeIcon, current: false },
