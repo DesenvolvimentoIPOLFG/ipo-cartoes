@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { ChartBarIcon, MagnifyingGlassIcon, PlusCircleIcon, ArrowPathIcon, EyeIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, PlusCircleIcon, ArrowPathIcon, EyeIcon } from '@heroicons/react/24/outline'
 import Sidebar from '@/app/components/navigation/Sidebar'
 import Navbar from '@/app/components/navigation/Navbar'
+import { getNavigationForSection } from '@/app/config/navigation'
 
 export default function AcessosSolicitados() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
@@ -11,22 +12,8 @@ export default function AcessosSolicitados() {
   const [servicoFiltro, setServicoFiltro] = useState('')
   const [search, setSearch] = useState('')
 
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: false },
-    {
-      name: 'Pedido_Cartão',
-      href: '/pages/servico/pedido_cartao',
-      icon: ChartBarIcon,
-      current: false,
-      subItems: [
-        { name: 'Resumo Pedido', href: '/pages/servico/pedido_cartao/resumo_pedido', current: false },
-        { name: 'Acessos Solicitados', href: '/pages/servico/pedido_cartao/acessos_solicitados', current: true },
-                { name: 'Avaliação Responsável', href: '/pages/servico/pedido_cartao/avaliacao_responsavel', current: false },
-                { name: 'Historico', href: '/pages/servico/pedido_cartao/historico', current: false }
-      ]
-    },
-        { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: false },
-  ]
+  // Use centralized navigation
+  const navigation = getNavigationForSection('servico', '/pages/servico/pedido_cartao/acessos_solicitados')
 
   // Mock data (agora com status, validade, responsável, prazo)
  const historico = [
