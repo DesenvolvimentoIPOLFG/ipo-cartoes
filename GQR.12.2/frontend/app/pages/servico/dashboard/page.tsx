@@ -10,6 +10,8 @@ import {
   ExclamationTriangleIcon,
   ArrowPathIcon,
   ClockIcon,
+  FunnelIcon,
+  PlusIcon,
 } from '@heroicons/react/24/outline'
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
@@ -21,6 +23,7 @@ export default function DashboardServico() {
   const [search, setSearch] = useState('')
   const [estadoFilter, setEstadoFilter] = useState('')
   const [tipoFilter, setTipoFilter] = useState('')
+  const [showFilters, setShowFilters] = useState(false)
   const [dataInicio, setDataInicio] = useState('')
   const [dataFim, setDataFim] = useState('')
 
@@ -172,52 +175,84 @@ export default function DashboardServico() {
                 ))}
               </div>
 
-              {/* Filtros e Pesquisa */}
-              <div className="flex flex-col md:flex-row md:items-end gap-4 mb-6">
-                <div className="flex-1">
-                  <div className="relative">
-                    <MagnifyingGlassIcon className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder="Pesquisar por Nome, N_MEC ou Tipo de pedido"
-                      value={search}
-                      onChange={e => setSearch(e.target.value)}
-                      className="pl-10 pr-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
+              {/* Filtros e Pesquisa - Updated to match gerir_cartao style */}
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg mb-6">
+                <div className="p-6">
+                  <div className="flex flex-col space-y-4">
+                    {/* Primeira linha - Pesquisa e botão de filtros */}
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="flex-1">
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </div>
+                          <input
+                            type="text"
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                            placeholder="Pesquisar por Nome, N_MEC ou Tipo de pedido"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => setShowFilters(!showFilters)}
+                          className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                          <FunnelIcon className="h-4 w-4 mr-2" />
+                          Filtros
+                        </button>
+                      </div>
+                    </div>
+                    
+                    {/* Segunda linha - Filtros (condicionalmente visível) */}
+                    {showFilters && (
+                      <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <div className="sm:w-48">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Estado
+                          </label>
+                          <select
+                            className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                            value={estadoFilter}
+                            onChange={(e) => setEstadoFilter(e.target.value)}
+                          >
+                            <option value="">Todos os Estados</option>
+                            <option value="ATIVO">Ativo</option>
+                            <option value="PENDENTE">Pendente</option>
+                            <option value="DESATIVADO">Desativado</option>
+                          </select>
+                        </div>
+                        
+                        <div className="sm:w-48">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Tipo
+                          </label>
+                          <select
+                            className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                            value={tipoFilter}
+                            onChange={(e) => setTipoFilter(e.target.value)}
+                          >
+                            <option value="">Todos os Tipos</option>
+                            <option value="1ª VIA">1ª Via</option>
+                            <option value="2ª VIA">2ª Via</option>
+                          </select>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-                <div>
-                  <select
-                    value={estadoFilter}
-                    onChange={e => setEstadoFilter(e.target.value)}
-                    className="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white py-2 px-3"
-                  >
-                    <option value="">Todos os Estados</option>
-                    <option value="ATIVO">Ativo</option>
-                    <option value="PENDENTE">Pendente</option>
-                    <option value="DESATIVADO">Desativado</option>
-                  </select>
-                </div>
-                <div>
-                  <select
-                    value={tipoFilter}
-                    onChange={e => setTipoFilter(e.target.value)}
-                    className="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white py-2 px-3"
-                  >
-                    <option value="">Todos os Tipos</option>
-                    <option value="1ª VIA">1ª Via</option>
-                    <option value="2ª VIA">2ª Via</option>
-                  </select>
                 </div>
               </div>
 
-              {/* Tabela */}
+              {/* Tabela - Updated height calculation */}
               <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
                 <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                   <h3 className="text-lg font-medium text-gray-900 dark:text-white">Gestão de Cartões</h3>
                 </div>
                 <div className="overflow-hidden">
-                  <div className="max-h-[500px] overflow-y-auto">
+                  <div className={showFilters ? "max-h-[400px] overflow-y-auto" : "max-h-[500px] overflow-y-auto"}>
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                       <thead className="bg-gray-50 dark:bg-gray-700 sticky top-0">
                         <tr>

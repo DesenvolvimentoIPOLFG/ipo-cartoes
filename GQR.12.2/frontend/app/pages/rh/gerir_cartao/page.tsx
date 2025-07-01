@@ -147,6 +147,175 @@ export default function GerirCartao() {
       ultimoAcesso: '2024-01-21 13:10',
       observacoes: 'Acesso regular'
     },
+    {
+      id: 6,
+      numeroCartao: '****2468',
+      nomePortador: 'Pedro Fernandes',
+      numeroFuncionario: '44444',
+      departamento: 'Vendas',
+      tipo: 'Profissional',
+      status: 'ativo',
+      dataEmissao: '2023-09-20',
+      dataExpiracao: '2025-09-20',
+      ultimoAcesso: '2024-01-21 10:45',
+      observacoes: 'Cartão de vendas'
+    },
+    {
+      id: 7,
+      numeroCartao: '****1357',
+      nomePortador: 'Catarina Lopes',
+      numeroFuncionario: '55555',
+      departamento: 'Qualidade',
+      tipo: 'Prestador',
+      status: 'ativo',
+      dataEmissao: '2023-11-05',
+      dataExpiracao: '2025-11-05',
+      ultimoAcesso: '2024-01-20 16:20',
+      observacoes: 'Acesso a laboratórios'
+    },
+    {
+      id: 8,
+      numeroCartao: '****9753',
+      nomePortador: 'Ricardo Martins',
+      numeroFuncionario: '66666',
+      departamento: 'Logística',
+      tipo: 'Profissional',
+      status: 'inativo',
+      dataEmissao: '2023-04-12',
+      dataExpiracao: '2025-04-12',
+      ultimoAcesso: '2024-01-15 08:30',
+      observacoes: 'Transferido de departamento'
+    },
+    {
+      id: 9,
+      numeroCartao: '****8642',
+      nomePortador: 'Inês Carvalho',
+      numeroFuncionario: '77777',
+      departamento: 'Contabilidade',
+      tipo: 'Profissional',
+      status: 'ativo',
+      dataEmissao: '2023-07-18',
+      dataExpiracao: '2025-07-18',
+      ultimoAcesso: '2024-01-21 14:15',
+      observacoes: 'Acesso financeiro'
+    },
+    {
+      id: 10,
+      numeroCartao: '****5791',
+      nomePortador: 'Miguel Sousa',
+      numeroFuncionario: '88888',
+      departamento: 'Produção',
+      tipo: 'Profissional',
+      status: 'bloqueado',
+      dataEmissao: '2023-03-25',
+      dataExpiracao: '2025-03-25',
+      ultimoAcesso: '2024-01-19 12:00',
+      observacoes: 'Incidente de segurança'
+    },
+    {
+      id: 11,
+      numeroCartao: '****4826',
+      nomePortador: 'Beatriz Almeida',
+      numeroFuncionario: '99999',
+      departamento: 'Comunicação',
+      tipo: 'Prestador',
+      status: 'ativo',
+      dataEmissao: '2023-10-08',
+      dataExpiracao: '2025-10-08',
+      ultimoAcesso: '2024-01-21 09:45',
+      observacoes: 'Acesso a estúdios'
+    },
+    {
+      id: 12,
+      numeroCartao: '****3715',
+      nomePortador: 'Tiago Pereira',
+      numeroFuncionario: '10101',
+      departamento: 'Segurança',
+      tipo: 'Profissional',
+      status: 'ativo',
+      dataEmissao: '2023-12-15',
+      dataExpiracao: '2025-12-15',
+      ultimoAcesso: '2024-01-21 15:30',
+      observacoes: 'Acesso total'
+    },
+    {
+      id: 13,
+      numeroCartao: '****6048',
+      nomePortador: 'Lúcia Santos',
+      numeroFuncionario: '12121',
+      departamento: 'Administração',
+      tipo: 'Profissional',
+      status: 'expirando',
+      dataEmissao: '2022-03-10',
+      dataExpiracao: '2024-03-10',
+      ultimoAcesso: '2024-01-20 11:15',
+      observacoes: 'Renovação pendente'
+    },
+    {
+      id: 14,
+      numeroCartao: '****9371',
+      nomePortador: 'André Ribeiro',
+      numeroFuncionario: '13131',
+      departamento: 'Manutenção',
+      tipo: 'Prestador',
+      status: 'inativo',
+      dataEmissao: '2023-05-22',
+      dataExpiracao: '2025-05-22',
+      ultimoAcesso: '2024-01-16 07:45',
+      observacoes: 'Contrato suspenso'
+    },
+    {
+      id: 15,
+      numeroCartao: '****2604',
+      nomePortador: 'Carla Nunes',
+      numeroFuncionario: '14141',
+      departamento: 'Compras',
+      tipo: 'Profissional',
+      status: 'ativo',
+      dataEmissao: '2023-08-30',
+      dataExpiracao: '2025-08-30',
+      ultimoAcesso: '2024-01-21 13:45',
+      observacoes: 'Acesso a fornecedores'
+    },
+    {
+      id: 16,
+      numeroCartao: '****7159',
+      nomePortador: 'Rui Costa',
+      numeroFuncionario: '15151',
+      departamento: 'Desenvolvimento',
+      tipo: 'Profissional',
+      status: 'ativo',
+      dataEmissao: '2023-06-14',
+      dataExpiracao: '2025-06-14',
+      ultimoAcesso: '2024-01-21 16:00',
+      observacoes: 'Acesso a servidores'
+    },
+    {
+      id: 17,
+      numeroCartao: '****8260',
+      nomePortador: 'Helena Dias',
+      numeroFuncionario: '16161',
+      departamento: 'Jurídico',
+      tipo: 'Prestador',
+      status: 'expirando',
+      dataEmissao: '2022-04-05',
+      dataExpiracao: '2024-04-05',
+      ultimoAcesso: '2024-01-19 14:30',
+      observacoes: 'Consultoria externa'
+    },
+    {
+      id: 18,
+      numeroCartao: '****5937',
+      nomePortador: 'Nuno Silva',
+      numeroFuncionario: '17171',
+      departamento: 'Auditoria',
+      tipo: 'Profissional',
+      status: 'bloqueado',
+      dataEmissao: '2023-09-12',
+      dataExpiracao: '2025-09-12',
+      ultimoAcesso: '2024-01-18 10:20',
+      observacoes: 'Investigação em curso'
+    }
   ]
 
   const getStatusColor = (status: string) => {
@@ -341,159 +510,163 @@ export default function GerirCartao() {
               </div>
 
               {/* Lista de Cartões */}
-              <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
-                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg flex flex-col" style={{ height: showFilters ? 'calc(100vh - 500px)' : 'calc(100vh - 400px)' }}>
+                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
                   <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                     Cartões Registados ({filteredCartoes.length})
                   </h3>
                 </div>
                 
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead className="bg-gray-50 dark:bg-gray-700">
-                      <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Cartão
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Portador
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Departamento
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Tipo
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Status
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Expiração
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Ações
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                      {filteredCartoes.map((cartao) => (
-                        <tr key={cartao.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <IdentificationIcon className="h-5 w-5 text-gray-400 mr-2" />
-                              <div>
-                                <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                  {cartao.numeroCartao}
-                                </div>
-                                <div className="text-sm text-gray-500 dark:text-gray-400">
-                                  Emitido: {new Date(cartao.dataEmissao).toLocaleDateString('pt-PT')}
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div>
-                              <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                {cartao.nomePortador}
-                              </div>
-                              <div className="text-sm text-gray-500 dark:text-gray-400">
-                                Nº {cartao.numeroFuncionario}
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                            {cartao.departamento}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                            {cartao.tipo}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(cartao.status)}`}>
-                              {getStatusText(cartao.status)}
-                            </span>
-                            {isExpiringSoon(cartao.dataExpiracao) && (
-                              <div className="text-xs text-yellow-600 dark:text-yellow-400 mt-1">
-                                Expira em breve
-                              </div>
-                            )}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900 dark:text-white">
-                              {new Date(cartao.dataExpiracao).toLocaleDateString('pt-PT')}
-                            </div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400">
-                              Último acesso: {cartao.ultimoAcesso}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div className="flex space-x-2">
-                              <button
-                                className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
-                                title="Ver detalhes"
-                              >
-                                <EyeIcon className="h-4 w-4" />
-                              </button>
-                              
-                              <button
-                                className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
-                                title="Editar"
-                              >
-                                <PencilIcon className="h-4 w-4" />
-                              </button>
-                              
-                              {cartao.status === 'inativo' && (
-                                <button
-                                  onClick={() => handleAtivar(cartao.id)}
-                                  className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
-                                  title="Ativar"
-                                >
-                                  <CheckCircleIcon className="h-4 w-4" />
-                                </button>
-                              )}
-                              
-                              {cartao.status === 'ativo' && (
-                                <button
-                                  onClick={() => handleDesativar(cartao.id)}
-                                  className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
-                                  title="Desativar"
-                                >
-                                  <XCircleIcon className="h-4 w-4" />
-                                </button>
-                              )}
-                              
-                              {(cartao.status === 'ativo' || cartao.status === 'inativo') && (
-                                <button
-                                  onClick={() => handleBloquear(cartao.id)}
-                                  className="text-orange-600 hover:text-orange-900 dark:text-orange-400 dark:hover:text-orange-300"
-                                  title="Bloquear"
-                                >
-                                  <ExclamationTriangleIcon className="h-4 w-4" />
-                                </button>
-                              )}
-                              
-                              {(cartao.status === 'expirando' || isExpiringSoon(cartao.dataExpiracao)) && (
-                                <button
-                                  onClick={() => handleRenovar(cartao.id)}
-                                  className="text-purple-600 hover:text-purple-900 dark:text-purple-400 dark:hover:text-purple-300"
-                                  title="Renovar"
-                                >
-                                  <ClockIcon className="h-4 w-4" />
-                                </button>
-                              )}
-                              
-                              <button
-                                onClick={() => handleEliminar(cartao.id)}
-                                className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                                title="Eliminar"
-                              >
-                                <TrashIcon className="h-4 w-4" />
-                              </button>
-                            </div>
-                          </td>
+                <div className="flex-1 overflow-y-auto overflow-x-hidden">
+                  <div className="min-w-full">
+                    <table className="w-full divide-y divide-gray-200 dark:divide-gray-700">
+                      <thead className="bg-gray-50 dark:bg-gray-700 sticky top-0">
+                        <tr>
+                          <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/6">
+                            Cartão
+                          </th>
+                          <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/6">
+                            Portador
+                          </th>
+                          <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/6">
+                            Departamento
+                          </th>
+                          <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/12">
+                            Tipo
+                          </th>
+                          <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/12">
+                            Status
+                          </th>
+                          <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/6">
+                            Expiração
+                          </th>
+                          <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/6">
+                            Ações
+                          </th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        {filteredCartoes.map((cartao) => (
+                          <tr key={cartao.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <td className="px-3 py-4">
+                              <div className="flex items-center">
+                                <IdentificationIcon className="h-5 w-5 text-gray-400 mr-2 flex-shrink-0" />
+                                <div className="min-w-0">
+                                  <div className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                    {cartao.numeroCartao}
+                                  </div>
+                                  <div className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                                    Emitido: {new Date(cartao.dataEmissao).toLocaleDateString('pt-PT')}
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-3 py-4">
+                              <div className="min-w-0">
+                                <div className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                  {cartao.nomePortador}
+                                </div>
+                                <div className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                                  Nº {cartao.numeroFuncionario}
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-3 py-4 text-sm text-gray-900 dark:text-white">
+                              <div className="truncate">{cartao.departamento}</div>
+                            </td>
+                            <td className="px-3 py-4 text-sm text-gray-900 dark:text-white">
+                              <div className="truncate">{cartao.tipo}</div>
+                            </td>
+                            <td className="px-3 py-4">
+                              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(cartao.status)}`}>
+                                {getStatusText(cartao.status)}
+                              </span>
+                              {isExpiringSoon(cartao.dataExpiracao) && (
+                                <div className="text-xs text-yellow-600 dark:text-yellow-400 mt-1">
+                                  Expira em breve
+                                </div>
+                              )}
+                            </td>
+                            <td className="px-3 py-4">
+                              <div className="min-w-0">
+                                <div className="text-sm text-gray-900 dark:text-white truncate">
+                                  {new Date(cartao.dataExpiracao).toLocaleDateString('pt-PT')}
+                                </div>
+                                <div className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                                  Último: {cartao.ultimoAcesso}
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-3 py-4 text-sm font-medium">
+                              <div className="flex space-x-1">
+                                <button
+                                  className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
+                                  title="Ver detalhes"
+                                >
+                                  <EyeIcon className="h-4 w-4" />
+                                </button>
+                                
+                                <button
+                                  className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                                  title="Editar"
+                                >
+                                  <PencilIcon className="h-4 w-4" />
+                                </button>
+                                
+                                {cartao.status === 'inativo' && (
+                                  <button
+                                    onClick={() => handleAtivar(cartao.id)}
+                                    className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
+                                    title="Ativar"
+                                  >
+                                    <CheckCircleIcon className="h-4 w-4" />
+                                  </button>
+                                )}
+                                
+                                {cartao.status === 'ativo' && (
+                                  <button
+                                    onClick={() => handleDesativar(cartao.id)}
+                                    className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                                    title="Desativar"
+                                  >
+                                    <XCircleIcon className="h-4 w-4" />
+                                  </button>
+                                )}
+                                
+                                {(cartao.status === 'ativo' || cartao.status === 'inativo') && (
+                                  <button
+                                    onClick={() => handleBloquear(cartao.id)}
+                                    className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                                    title="Bloquear"
+                                  >
+                                    <ExclamationTriangleIcon className="h-4 w-4" />
+                                  </button>
+                                )}
+                                
+                                {cartao.status === 'expirando' && (
+                                  <button
+                                    onClick={() => handleRenovar(cartao.id)}
+                                    className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                                    title="Renovar"
+                                  >
+                                    <ClockIcon className="h-4 w-4" />
+                                  </button>
+                                )}
+                                
+                                <button
+                                  onClick={() => handleEliminar(cartao.id)}
+                                  className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                                  title="Eliminar"
+                                >
+                                  <TrashIcon className="h-4 w-4" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
                 
                 {filteredCartoes.length === 0 && (
