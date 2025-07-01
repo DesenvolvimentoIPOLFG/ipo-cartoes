@@ -77,9 +77,11 @@ export default function AvaliacaoResponsavel() {
       subItems: [
         { name: 'Resumo Pedido', href: '/pages/servico/pedido_cartao/resumo_pedido', current: false },
         { name: 'Acessos Solicitados', href: '/pages/servico/pedido_cartao/acessos_solicitados', current: false },
-        { name: 'Avaliação Responsável', href: '/pages/servico/pedido_cartao/avaliacao_responsavel', current: true }
+        { name: 'Avaliação Responsável', href: '/pages/servico/pedido_cartao/avaliacao_responsavel', current: true },
+        { name: 'Historico', href: '/pages/servico/pedido_cartao/historico', current: true }
       ]
     },
+        { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: true },
   ]
 
   const notificacoes = [
