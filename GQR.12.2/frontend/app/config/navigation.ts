@@ -47,7 +47,7 @@ export const navigationConfig: NavigationConfig = {
     { name: 'Dashboard', href: '/pages/rs/dashboard', icon: ChartBarIcon, current: false },
   ],
   servico: [
-    { name: 'Dashboard', href: '/pages/servico/dashboard', icon: WrenchScrewdriverIcon, current: false },
+    { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: false },
     { 
       name: 'Pedido Cartão', 
       href: '/pages/servico/pedido_cartao', 

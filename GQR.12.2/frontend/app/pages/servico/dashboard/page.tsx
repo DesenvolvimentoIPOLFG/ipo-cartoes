@@ -217,7 +217,7 @@ export default function DashboardServico() {
                   <h3 className="text-lg font-medium text-gray-900 dark:text-white">Gestão de Cartões</h3>
                 </div>
                 <div className="overflow-hidden">
-                  <div className="max-h-96 overflow-y-auto">
+                  <div className="max-h-[500px] overflow-y-auto">
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                       <thead className="bg-gray-50 dark:bg-gray-700 sticky top-0">
                         <tr>
