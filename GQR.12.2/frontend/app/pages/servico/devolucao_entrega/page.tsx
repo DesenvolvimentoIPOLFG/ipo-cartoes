@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import {
-  ChartBarIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline'
 import NotificationsPanel from "../../../components/notifications/NotificationsPanel";
 import Navbar from "../../../components/navigation/Navbar";
 import Sidebar from "../../../components/navigation/Sidebar";
+import { getNavigationForSection } from "../../../config/navigation";
 
 function StatusEntrega({ status }: { status: string }) {
   if (status === 'PENDENTE') {
@@ -52,21 +52,7 @@ export default function DevolucaoEntregaPage() {
     },
   ];
 
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: false },
-    { name: 'Pedido_Cartão', href: '/pages/servico/pedido_cartao', icon: ChartBarIcon, current: false },
-    {
-      name: 'Devolução/Entrega',
-      href: '/pages/servico/devolucao_entrega',
-      icon: ChartBarIcon,
-      current: true,
-      subItems: [
-        { name: 'Detalhes do Pedido', href: '/pages/servico/devolucao_entrega/detalhes_pedido', current: false },
-        { name: 'Ação Devolução', href: '/pages/servico/devolucao_entrega/acao_devolucao', current: false },
-        { name: 'Historico', href: '/pages/servico/devolucao_entrega/historico', current: false },
-      ],
-    },
-  ];
+  const navigation = getNavigationForSection('servico', '/pages/servico/devolucao_entrega');
 
   const filteredData = tableData; // sem filtro por tags
 

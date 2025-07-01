@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { CalendarIcon, ChartBarIcon, PencilSquareIcon, XCircleIcon, CheckCircleIcon, PrinterIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
 import Sidebar from '@/app/components/navigation/Sidebar'
 import Navbar from '@/app/components/navigation/Navbar'
+import { getNavigationForSection } from '@/app/config/navigation'
 
 export default function ResumoPedido() {
   // Mock data
@@ -45,22 +46,8 @@ export default function ResumoPedido() {
 
   const [notificationsOpen, setNotificationsOpen] = useState(false)
 
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: false },
-    {
-      name: 'Pedido_Cartão',
-      href: '/pages/servico/pedido_cartao',
-      icon: ChartBarIcon,
-      current: false,
-      subItems: [
-        { name: 'Resumo Pedido', href: '/pages/servico/pedido_cartao/resumo_pedido', current: true },
-        { name: 'Acessos Solicitados', href: '/pages/servico/pedido_cartao/acessos_solicitados', current: false },
-        { name: 'Avaliação Responsável', href: '/pages/servico/pedido_cartao/avaliacao_responsavel', current: false },
-        { name: 'Historico', href: '/pages/servico/pedido_cartao/historico', current: false }
-      ]
-    },
-    { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: false },
-  ]
+  // Use centralized navigation
+  const navigation = getNavigationForSection('servico', '/pages/servico/pedido_cartao/resumo_pedido')
 
   // Estado para ações (exemplo)
   const [canEdit, setCanEdit] = useState(true)

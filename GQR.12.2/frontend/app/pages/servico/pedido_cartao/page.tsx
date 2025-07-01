@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import {
-  ChartBarIcon,
   MagnifyingGlassIcon,
   PlusCircleIcon,
   ArrowPathIcon,
@@ -15,6 +14,7 @@ import {
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
 import Sidebar from '@/app/components/navigation/Sidebar'
+import { getNavigationForSection } from '@/app/config/navigation'
 
 function SLAStatus({ horas }: { horas: number }) {
   if (horas > 48) {
@@ -69,23 +69,8 @@ export default function PedidoCartaoServico() {
     },
   ]
 
-  // Sidebar navigation with subItems for Resumo Pedido
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: false },
-    {
-      name: 'Pedido_Cartão',
-      href: '/pages/servico/pedido_cartao',
-      icon: ChartBarIcon,
-      current: true,
-      subItems: [
-        { name: 'Resumo Pedido', href: '/pages/servico/pedido_cartao/resumo_pedido', current: false },
-        { name: 'Acessos Solicitados', href: '/pages/servico/pedido_cartao/acessos_solicitados', current: false },
-        { name: 'Avaliação Responsável', href: '/pages/servico/pedido_cartao/avaliacao_responsavel', current: false },
-        { name: 'Historico', href: '/pages/servico/pedido_cartao/historico', current: false }
-      ]
-    },
-    { name: 'Devolução/Entrega', href: '/pages/servico/devolucao_entrega', icon: ChartBarIcon, current: false },
-  ]
+  // Use centralized navigation
+  const navigation = getNavigationForSection('servico', '/pages/servico/pedido_cartao')
 
   const filteredData = tagsFilter
     ? tableData.filter(row => row.tags.includes(tagsFilter))

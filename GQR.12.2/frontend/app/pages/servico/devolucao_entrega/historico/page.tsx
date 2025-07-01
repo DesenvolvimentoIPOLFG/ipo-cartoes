@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import {
-  ChartBarIcon,
   MagnifyingGlassIcon,
   PlusCircleIcon,
   ArrowPathIcon,
@@ -11,10 +10,12 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   ChevronDownIcon,
+  ChartBarIcon
 } from '@heroicons/react/24/outline'
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
 import Sidebar from '@/app/components/navigation/Sidebar'
+import { getNavigationForSection } from '@/app/config/navigation'
 
 function SLAStatus({ horas }: { horas: number }) {
   if (horas > 48) {
@@ -69,22 +70,8 @@ export default function PedidoCartaoServico() {
     },
   ]
 
-  // Sidebar navigation with subItems for Resumo Pedido
-  const navigation = [
-    { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: false },
-    { name: 'Pedido_Cartão', href: '/pages/servico/pedido_cartao', icon: ChartBarIcon, current: false },
-    {
-      name: 'Devolução/Entrega',
-      href: '/pages/servico/devolucao_entrega',
-      icon: ChartBarIcon,
-      current: false,
-      subItems: [
-        { name: 'Detalhes do Pedido', href: '/pages/servico/devolucao_entrega/detalhes_pedido', current: false },
-        { name: 'Ação Devolução', href: '/pages/servico/devolucao_entrega/acao_devolucao', current: false },
-        { name: 'Historico', href: '/pages/servico/devolucao_entrega/historico', current: true },
-      ],
-    },
-  ];
+  // Use centralized navigation
+  const navigation = getNavigationForSection('servico', '/pages/servico/devolucao_entrega/historico')
 
   const filteredData = tagsFilter
     ? tableData.filter(row => row.tags.includes(tagsFilter))
