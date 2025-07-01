@@ -17,22 +17,55 @@ export default function AvaliacaoResponsavel() {
   const [nivelAcesso, setNivelAcesso] = useState('Total')
   const [file, setFile] = useState<File | null>(null)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
+  const [pedidoIndex, setPedidoIndex] = useState(0)
 
-  // Mock pedido
-  const pedido = {
-    solicitante: 'João Silva',
-    cargo: 'Analista de Sistemas',
-    departamento: 'TI',
-    servico: 'Acesso ao Sistema X',
-    data: '2025-06-30',
-    justificacao: 'Necessidade de acesso para manutenção urgente.',
-    urgencia: 'Alta',
-    nivelSolicitado: 'Total',
-    condicoesEspeciais: 'Acesso apenas em horário laboral.',
-    impactoSeguranca: 'Acesso total ao sistema crítico.',
-    prazoDecisao: '12h',
-    preview: 'Acesso ao módulo financeiro, relatórios e exportação de dados.'
-  }
+  // Array de pedidos
+  const pedidos = [
+    {
+      solicitante: 'João Silva',
+      cargo: 'Analista de Sistemas',
+      departamento: 'TI',
+      servico: 'Acesso ao Sistema X',
+      data: '2025-06-30',
+      justificacao: 'Necessidade de acesso para manutenção urgente.',
+      urgencia: 'Alta',
+      nivelSolicitado: 'Total',
+      condicoesEspeciais: 'Acesso apenas em horário laboral.',
+      impactoSeguranca: 'Acesso total ao sistema crítico.',
+      prazoDecisao: '12h',
+      preview: 'Acesso ao módulo financeiro, relatórios e exportação de dados.'
+    },
+    {
+      solicitante: 'Ricardo Bernardo',
+      cargo: 'Gestor de Projetos',
+      departamento: 'Operações',
+      servico: 'Acesso ao Sistema de Gestão',
+      data: '2025-07-01',
+      justificacao: 'Necessidade de acesso para acompanhamento de projetos em andamento.',
+      urgencia: 'Média',
+      nivelSolicitado: 'Parcial',
+      condicoesEspeciais: 'Acesso restrito ao módulo de relatórios.',
+      impactoSeguranca: 'Acesso parcial a dados sensíveis de projetos.',
+      prazoDecisao: '24h',
+      preview: 'Acesso ao painel de relatórios e dashboards de projetos.'
+    },
+       {
+      solicitante: 'Miguel Fernandes',
+      cargo: 'Estudante',
+      departamento: 'Limpeza',
+      servico: 'Acesso a casa de banho',
+      data: '2025-09-23',
+      justificacao: 'Necessidade de acesso para ir a casa de banho.',
+      urgencia: 'Baixa',
+      nivelSolicitado: 'Específico',
+      condicoesEspeciais: 'Acesso restrito a casa de banho.',
+      impactoSeguranca: 'Acesso especifico a casa de banho.',
+      prazoDecisao: '48h',
+      preview: 'Acesso ao a casa de banho.'
+    }
+  ]
+
+  const pedido = pedidos[pedidoIndex]
 
   const navigation = [
     { name: 'Dashboard', href: '/pages/servico/dashboard', icon: ChartBarIcon, current: false },
@@ -106,8 +139,23 @@ export default function AvaliacaoResponsavel() {
         />
         <main className="flex-1 flex flex-col items-center justify-center py-8">
           <div className="w-full max-w-2xl">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 flex flex-col gap-8 w-full">
-
+            {/* ComboBox para selecionar o pedido */}
+            <div className="mb-6 flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Selecionar pedido:</label>
+              <select
+                className="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-2"
+                value={pedidoIndex}
+                onChange={e => setPedidoIndex(Number(e.target.value))}
+              >
+                {pedidos.map((p, idx) => (
+                  <option key={idx} value={idx}>
+                    {p.solicitante} — {p.servico}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 mt-20 flex flex-col gap-8 w-full">
+              {/* ↑ mt-20 = margin-top grande (5dp) */}
               {/* Resumo do Pedido */}
               <section className="space-y-2">
                 <div className="flex items-center gap-3">
