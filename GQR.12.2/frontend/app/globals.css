@@ -75,6 +75,27 @@
 }
 
 
+/* Timeline Modal Animations */
+.timelineModal {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.timelineContainer {
+  animation: slideInUp 0.3s ease-out;
+}
+
+.timelineTitle {
+  animation: fadeInSlideIn 0.4s ease-out 0.1s both;
+}
+
+.timelineEvent {
+  animation: fadeInSlideIn 0.4s ease-out both;
+}
+
+.timelineIcon {
+  animation: bounceIn 0.5s ease-out both;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -95,10 +116,120 @@
   }
 }
 
+@keyframes fadeInSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out;
 }
 
 .animate-slideInUp {
   animation: slideInUp 0.4s ease-out;
+}
+
+
+/* Hide scrollbar for main content but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
+/* Ensure body and html don't show scrollbars */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Keep table scrollbars visible */
+.overflow-y-auto:not(.scrollbar-hide) {
+  scrollbar-width: thin;
+}
+
+.overflow-y-auto:not(.scrollbar-hide)::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto:not(.scrollbar-hide)::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.overflow-y-auto:not(.scrollbar-hide)::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.overflow-y-auto:not(.scrollbar-hide)::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Dark mode scrollbar for tables */
+.dark .overflow-y-auto:not(.scrollbar-hide)::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.dark .overflow-y-auto:not(.scrollbar-hide)::-webkit-scrollbar-thumb {
+  background: #6b7280;
+}
+
+.dark .overflow-y-auto:not(.scrollbar-hide)::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Details Modal Animations */
+.detailsModal {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.detailsContainer {
+  animation: slideInUp 0.3s ease-out;
+}
+
+.detailsTitle {
+  animation: fadeInSlideIn 0.4s ease-out 0.1s both;
+}
+
+.detailsModalField {
+  animation: fadeInSlideIn 0.4s ease-out both;
+}
+
+.detailsModalHeader {
+  animation: fadeInSlideIn 0.4s ease-out 0.05s both;
+}
+
+.detailsModalContent {
+  animation: fadeInSlideIn 0.4s ease-out 0.1s both;
+}
+
+.detailsModalFooter {
+  animation: fadeInSlideIn 0.4s ease-out 0.15s both;
 }
