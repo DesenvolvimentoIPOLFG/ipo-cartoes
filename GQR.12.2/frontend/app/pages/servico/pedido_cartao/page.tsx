@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import {
   MagnifyingGlassIcon,
-  PlusCircleIcon,
+  PlusIcon,
   ArrowPathIcon,
   CheckCircleIcon,
   XCircleIcon,
@@ -12,6 +12,8 @@ import {
   ChevronDownIcon,
   DocumentTextIcon,
   UserPlusIcon,
+  ChatBubbleLeftRightIcon,
+  FunnelIcon,
 } from '@heroicons/react/24/outline'
 import NotificationsPanel from '@/app/components/notifications/NotificationsPanel'
 import Navbar from '@/app/components/navigation/Navbar'
@@ -33,10 +35,11 @@ export default function PedidoCartaoServico() {
   const [selectedRows, setSelectedRows] = useState<number[]>([])
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
   const [autoRefresh, setAutoRefresh] = useState(true)
+  const [showChecklist, setShowChecklist] = useState(false)
   const [expandedRow, setExpandedRow] = useState<number | null>(null)
   const [search, setSearch] = useState('')
   const [estadoFilter, setEstadoFilter] = useState('')
-  const [tagsFilter, setTagsFilter] = useState('')
+  const [showFilters, setShowFilters] = useState(false)
 
   useEffect(() => {
     if (!autoRefresh) return
@@ -46,7 +49,7 @@ export default function PedidoCartaoServico() {
 
   const navigation = getNavigationForSection('servico', '/pages/servico/pedido_cartao')
 
-  // Estatísticas específicas para pedidos de cartão
+  // Estatísticas específicas para pedidos de cartão - mais simples e consistente
   const stats = [
     { 
       name: 'Novos Pedidos Hoje', 
@@ -81,6 +84,20 @@ export default function PedidoCartaoServico() {
     { id: 4, data: '19/07/2024', estado: 'PENDENTE', horas: 5, tags: [], checklist: false, nome: 'Ana Costa', motivo: '1ª Via - Transferência' },
     { id: 5, data: '18/07/2024', estado: 'APROVADO', horas: 72, tags: ['Urgente'], checklist: true, nome: 'Pedro Ferreira', motivo: '2ª Via - Cartão roubado' },
     { id: 6, data: '17/07/2024', estado: 'RECUSADO', horas: 96, tags: [], checklist: false, nome: 'Sofia Rodrigues', motivo: '1ª Via - Documentação incompleta' },
+    { id: 7, data: '26/07/2024', estado: 'PENDENTE', horas: 8, tags: ['Urgente'], checklist: false, nome: 'Miguel Pereira', motivo: '2ª Via - Cartão expirado' },
+    { id: 8, data: '25/07/2024', estado: 'PENDENTE', horas: 24, tags: ['Temporário'], checklist: true, nome: 'Catarina Lopes', motivo: '1ª Via - Novo funcionário' },
+    { id: 9, data: '24/07/2024', estado: 'APROVADO', horas: 48, tags: [], checklist: false, nome: 'Ricardo Martins', motivo: '2ª Via - Cartão danificado' },
+    { id: 10, data: '23/07/2024', estado: 'PENDENTE', horas: 36, tags: ['Permanente'], checklist: true, nome: 'Teresa Silva', motivo: '1ª Via - Transferência departamento' },
+    { id: 11, data: '22/07/2024', estado: 'RECUSADO', horas: 120, tags: [], checklist: false, nome: 'Bruno Costa', motivo: '2ª Via - Documentação inválida' },
+    { id: 12, data: '21/07/2024', estado: 'PENDENTE', horas: 16, tags: ['Urgente'], checklist: false, nome: 'Inês Fernandes', motivo: '1ª Via - Novo colaborador' },
+    { id: 13, data: '20/07/2024', estado: 'APROVADO', horas: 60, tags: ['Temporário'], checklist: true, nome: 'Luís Soares', motivo: '2ª Via - Cartão perdido' },
+    { id: 14, data: '19/07/2024', estado: 'PENDENTE', horas: 4, tags: [], checklist: false, nome: 'Patrícia Alves', motivo: '1ª Via - Contrato temporário' },
+    { id: 15, data: '18/07/2024', estado: 'RECUSADO', horas: 144, tags: [], checklist: false, nome: 'Rui Carvalho', motivo: '2ª Via - Autorização pendente' },
+    { id: 16, data: '27/07/2024', estado: 'PENDENTE', horas: 2, tags: ['Urgente'], checklist: false, nome: 'Sandra Oliveira', motivo: '2ª Via - Emergência' },
+    { id: 17, data: '26/07/2024', estado: 'PENDENTE', horas: 20, tags: ['Permanente'], checklist: true, nome: 'Nuno Ribeiro', motivo: '1ª Via - Novo departamento' },
+    { id: 18, data: '25/07/2024', estado: 'APROVADO', horas: 40, tags: [], checklist: false, nome: 'Cristina Moura', motivo: '2ª Via - Renovação' },
+    { id: 19, data: '24/07/2024', estado: 'PENDENTE', horas: 28, tags: ['Temporário'], checklist: true, nome: 'Vítor Gomes', motivo: '1ª Via - Estagiário' },
+    { id: 20, data: '23/07/2024', estado: 'RECUSADO', horas: 168, tags: [], checklist: false, nome: 'Helena Dias', motivo: '2ª Via - Processo incompleto' }
   ]
 
   const estadoColor: Record<string, string> = {
@@ -113,8 +130,7 @@ export default function PedidoCartaoServico() {
       row.id.toString().includes(search) ||
       row.motivo.toLowerCase().includes(search.toLowerCase())
     const estadoMatch = estadoFilter ? row.estado === estadoFilter : true
-    const tagsMatch = tagsFilter ? row.tags.includes(tagsFilter) : true
-    return searchMatch && estadoMatch && tagsMatch
+    return searchMatch && estadoMatch
   })
 
   function toggleRow(id: number) {
@@ -144,6 +160,13 @@ export default function PedidoCartaoServico() {
     alert(`Pedido ${id} de ${pedido?.nome} recusado!`)
   }
 
+  const checklistSteps = [
+    'Verificar anexos obrigatórios',
+    'Confirmar dados do colaborador',
+    'Validar motivo do pedido',
+    'Verificar aprovação do responsável'
+  ]
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <Sidebar navigation={navigation} />
@@ -158,7 +181,7 @@ export default function PedidoCartaoServico() {
         <main className="flex-1">
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              {/* Stats Cards */}
+              {/* Stats Cards - Simplified design matching other pages */}
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 mb-6">
                 {stats.map((item) => (
                   <div
@@ -188,108 +211,86 @@ export default function PedidoCartaoServico() {
                 ))}
               </div>
 
-              {/* Quick Actions */}
-              <div className="flex flex-col md:flex-row gap-4 mb-6">
-                <div className="flex-1 flex flex-row gap-2">
-                  <button className="flex items-center gap-1 px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-semibold">
-                    <PlusCircleIcon className="h-5 w-5" /> Novo Pedido
-                  </button>
-                  {selectedRows.length > 1 && (
-                    <>
-                      <button
-                        className="flex items-center gap-1 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm font-semibold"
-                        onClick={() => handleMassAction('aprovar')}
-                      >
-                        <CheckCircleIcon className="h-5 w-5" /> Aprovar Selecionados
-                      </button>
-                      <button
-                        className="flex items-center gap-1 px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm font-semibold"
-                        onClick={() => handleMassAction('recusar')}
-                      >
-                        <XCircleIcon className="h-5 w-5" /> Recusar Selecionados
-                      </button>
-                    </>
-                  )}
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500 dark:text-gray-300">
-                    Atualizado há {Math.round((Date.now() - lastUpdate.getTime()) / 60000)} min
-                  </span>
-                  <button
-                    onClick={handleManualRefresh}
-                    className="flex items-center px-3 py-2 bg-indigo-100 text-indigo-700 rounded hover:bg-indigo-200 text-sm font-semibold"
-                  >
-                    <ArrowPathIcon className="h-5 w-5 mr-1" /> Atualizar
-                  </button>
-                </div>
-              </div>
-
-              {/* Filtros e Pesquisa */}
-              <div className="flex flex-col md:flex-row md:items-end gap-4 mb-6">
-                <div className="flex-1">
-                  <div className="relative">
-                    <MagnifyingGlassIcon className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder="Pesquisar por ID, Nome ou Motivo"
-                      value={search}
-                      onChange={e => setSearch(e.target.value)}
-                      className="pl-10 pr-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
+              {/* Filtros e Pesquisa - Updated to match gerir_cartao style */}
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg mb-6">
+                <div className="p-6">
+                  <div className="flex flex-col space-y-4">
+                    {/* Primeira linha - Pesquisa e botão de filtros */}
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="flex-1">
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </div>
+                          <input
+                            type="text"
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                            placeholder="Pesquisar por ID, Nome ou Motivo"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => setShowFilters(!showFilters)}
+                          className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                          <FunnelIcon className="h-4 w-4 mr-2" />
+                          Filtros
+                        </button>
+                        
+                        <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          <PlusIcon className="h-4 w-4 mr-2" />
+                          Novo Pedido de 2.ª Via
+                        </button>
+                      </div>
+                    </div>
+                    
+                    {/* Segunda linha - Filtros (condicionalmente visível) */}
+                    {showFilters && (
+                      <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <div className="sm:w-48">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Estado
+                          </label>
+                          <select
+                            className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                            value={estadoFilter}
+                            onChange={(e) => setEstadoFilter(e.target.value)}
+                          >
+                            <option value="">Todos os Estados</option>
+                            <option value="PENDENTE">Pendente</option>
+                            <option value="APROVADO">Aprovado</option>
+                            <option value="RECUSADO">Recusado</option>
+                          </select>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-                <div>
-                  <select
-                    value={estadoFilter}
-                    onChange={e => setEstadoFilter(e.target.value)}
-                    className="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white py-2 px-3"
-                  >
-                    <option value="">Todos os Estados</option>
-                    <option value="PENDENTE">Pendente</option>
-                    <option value="APROVADO">Aprovado</option>
-                    <option value="RECUSADO">Recusado</option>
-                  </select>
-                </div>
-                <div>
-                  <select
-                    value={tagsFilter}
-                    onChange={e => setTagsFilter(e.target.value)}
-                    className="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white py-2 px-3"
-                  >
-                    <option value="">Todas as Tags</option>
-                    <option value="Urgente">Urgente</option>
-                    <option value="Temporário">Temporário</option>
-                    <option value="Permanente">Permanente</option>
-                  </select>
-                </div>
               </div>
 
-              {/* Tabela */}
-              <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
-                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">Pedidos de Cartão</h3>
+              {/* Tabela - Updated height calculation */}
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg flex flex-col" style={{height: showFilters ? 'calc(100vh - 500px)' : 'calc(100vh - 400px)'}}>
+                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                      Pedidos de Cartão
+                    </h3>
+                    <span className="text-xs text-gray-500 dark:text-gray-300">
+                      Atualizado há {Math.round((Date.now() - lastUpdate.getTime()) / 60000)} min
+                    </span>
+                  </div>
                 </div>
-                <div className="overflow-hidden">
-                  <div className="max-h-[500px] overflow-y-auto">
+                <div className="flex-1 overflow-hidden">
+                  <div className="h-full overflow-y-auto">
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                       <thead className="bg-gray-50 dark:bg-gray-700 sticky top-0">
                         <tr>
-                          <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            <input
-                              type="checkbox"
-                              checked={selectedRows.length === filteredData.length && filteredData.length > 0}
-                              onChange={e =>
-                                setSelectedRows(
-                                  e.target.checked ? filteredData.map(r => r.id) : []
-                                )
-                              }
-                            />
-                          </th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            ID
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Nome
+                            ID Pedido
                           </th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             Data
@@ -297,36 +298,19 @@ export default function PedidoCartaoServico() {
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             Estado
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Tags
-                          </th>
-                          <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            SLA
-                          </th>
                           <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             Ações
                           </th>
-                          <th></th>
                         </tr>
                       </thead>
                       <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                         {filteredData.map((row) => (
                           <tr
                             key={row.id}
-                            className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${row.horas > 48 ? 'bg-red-50 dark:bg-red-900' : ''}`}
+                            className="hover:bg-gray-50 dark:hover:bg-gray-700"
                           >
-                            <td className="px-2 py-4 text-center">
-                              <input
-                                type="checkbox"
-                                checked={selectedRows.includes(row.id)}
-                                onChange={() => toggleRow(row.id)}
-                              />
-                            </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                               {row.id}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                              {row.nome}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                               {row.data}
@@ -335,18 +319,6 @@ export default function PedidoCartaoServico() {
                               <span className={`inline-flex items-center px-2 py-1 rounded-full font-semibold text-xs ${estadoColor[row.estado] || 'bg-gray-200 text-gray-800'}`}>
                                 {row.estado}
                               </span>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-xs">
-                              {row.tags.length === 0 ? (
-                                <span className="text-gray-400">-</span>
-                              ) : (
-                                row.tags.map(tag => (
-                                  <span key={tag} className="inline-block bg-indigo-100 text-indigo-700 rounded px-2 py-0.5 mr-1">{tag}</span>
-                                ))
-                              )}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-xs text-center">
-                              <SLAStatus horas={row.horas} />
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
                               {row.estado === 'PENDENTE' ? (
@@ -371,54 +343,19 @@ export default function PedidoCartaoServico() {
                                   </button>
                                 </div>
                               ) : (
-                                <span className="text-gray-400 text-xs">
-                                  {row.estado === 'APROVADO' ? 'Aprovado' : 'Recusado'}
-                                </span>
+                                <button
+                                  className="inline-flex items-center justify-center rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 p-2 transition"
+                                  title="Ver detalhes"
+                                  type="button"
+                                >
+                                  <MagnifyingGlassIcon className="h-5 w-5 text-gray-700 dark:text-gray-200" />
+                                </button>
                               )}
-                            </td>
-                            <td className="px-2 py-4 text-center">
-                              <button
-                                className="inline-flex items-center justify-center"
-                                onClick={() => setExpandedRow(expandedRow === row.id ? null : row.id)}
-                                title="Expandir detalhes"
-                                type="button"
-                              >
-                                <ChevronDownIcon className={`h-5 w-5 transition-transform ${expandedRow === row.id ? 'rotate-180' : ''}`} />
-                              </button>
                             </td>
                           </tr>
                         ))}
-                        {/* Accordions para detalhes */}
-                        {filteredData.map(row => (
-                          expandedRow === row.id && (
-                            <tr key={`details-${row.id}`}>
-                              <td colSpan={9} className="bg-indigo-50 dark:bg-indigo-900 p-4">
-                                <div className="text-sm text-gray-700 dark:text-gray-200">
-                                  <strong>Detalhes do Pedido {row.id}:</strong>
-                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                                    <div>
-                                      <p><strong>Nome:</strong> {row.nome}</p>
-                                      <p><strong>Data:</strong> {row.data}</p>
-                                      <p><strong>Estado:</strong> {row.estado}</p>
-                                    </div>
-                                    <div>
-                                      <p><strong>Motivo:</strong> {row.motivo}</p>
-                                      <p><strong>Tags:</strong> {row.tags.join(', ') || '-'}</p>
-                                      <p><strong>Tempo pendente:</strong> {row.horas} horas</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          )
-                        ))}
                       </tbody>
                     </table>
-                    {filteredData.length === 0 && (
-                      <div className="text-center text-gray-500 dark:text-gray-300 py-8">
-                        Nenhum resultado encontrado.
-                      </div>
-                    )}
                   </div>
                 </div>
               </div>
@@ -426,7 +363,6 @@ export default function PedidoCartaoServico() {
           </div>
         </main>
       </div>
-
 
       <NotificationsPanel
         isOpen={notificationsOpen}

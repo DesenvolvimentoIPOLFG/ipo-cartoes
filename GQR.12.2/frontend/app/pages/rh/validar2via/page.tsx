@@ -112,6 +112,160 @@ export default function Validar2Via() {
       documentos: ['BI', 'Declaração de perda'],
       observacoes: 'Primeira solicitação de 2ª via'
     },
+    {
+      id: 5,
+      nome: 'Sofia Rodrigues',
+      numeroFuncionario: '33333',
+      departamento: 'Marketing',
+      motivoSolicitacao: 'Cartão expirado',
+      datasolicitacao: '2024-01-11',
+      status: 'aprovado',
+      documentos: ['BI', 'Cartão expirado'],
+      observacoes: 'Cartão expirou há 2 meses'
+    },
+    {
+      id: 6,
+      nome: 'Pedro Fernandes',
+      numeroFuncionario: '44444',
+      departamento: 'Vendas',
+      motivoSolicitacao: 'Cartão perdido',
+      datasolicitacao: '2024-01-10',
+      status: 'pendente',
+      documentos: ['BI', 'Declaração de perda'],
+      observacoes: 'Perda durante viagem de negócios'
+    },
+    {
+      id: 7,
+      nome: 'Catarina Lopes',
+      numeroFuncionario: '55555',
+      departamento: 'Qualidade',
+      motivoSolicitacao: 'Cartão danificado',
+      datasolicitacao: '2024-01-09',
+      status: 'aprovado',
+      documentos: ['BI', 'Foto do cartão'],
+      observacoes: 'Cartão partido ao meio'
+    },
+    {
+      id: 8,
+      nome: 'Ricardo Martins',
+      numeroFuncionario: '66666',
+      departamento: 'Logística',
+      motivoSolicitacao: 'Cartão roubado',
+      datasolicitacao: '2024-01-08',
+      status: 'rejeitado',
+      documentos: ['BI'],
+      observacoes: 'Documentação incompleta'
+    },
+    {
+      id: 9,
+      nome: 'Inês Carvalho',
+      numeroFuncionario: '77777',
+      departamento: 'Contabilidade',
+      motivoSolicitacao: 'Cartão perdido',
+      datasolicitacao: '2024-01-07',
+      status: 'pendente',
+      documentos: ['BI', 'Declaração de perda'],
+      observacoes: 'Perda em casa'
+    },
+    {
+      id: 10,
+      nome: 'Miguel Sousa',
+      numeroFuncionario: '88888',
+      departamento: 'Produção',
+      motivoSolicitacao: 'Cartão danificado',
+      datasolicitacao: '2024-01-06',
+      status: 'aprovado',
+      documentos: ['BI', 'Foto do cartão'],
+      observacoes: 'Danos causados por máquina industrial'
+    },
+    {
+      id: 11,
+      nome: 'Beatriz Almeida',
+      numeroFuncionario: '99999',
+      departamento: 'Comunicação',
+      motivoSolicitacao: 'Cartão perdido',
+      datasolicitacao: '2024-01-05',
+      status: 'pendente',
+      documentos: ['BI', 'Declaração de perda'],
+      observacoes: 'Perda durante evento corporativo'
+    },
+    {
+      id: 12,
+      nome: 'Tiago Pereira',
+      numeroFuncionario: '10101',
+      departamento: 'Segurança',
+      motivoSolicitacao: 'Cartão roubado',
+      datasolicitacao: '2024-01-04',
+      status: 'aprovado',
+      documentos: ['BI', 'Participação policial'],
+      observacoes: 'Roubo confirmado pelas autoridades'
+    },
+    {
+      id: 13,
+      nome: 'Lúcia Santos',
+      numeroFuncionario: '12121',
+      departamento: 'Administração',
+      motivoSolicitacao: 'Cartão expirado',
+      datasolicitacao: '2024-01-03',
+      status: 'pendente',
+      documentos: ['BI', 'Cartão expirado'],
+      observacoes: 'Renovação de cartão expirado'
+    },
+    {
+      id: 14,
+      nome: 'André Ribeiro',
+      numeroFuncionario: '13131',
+      departamento: 'Manutenção',
+      motivoSolicitacao: 'Cartão danificado',
+      datasolicitacao: '2024-01-02',
+      status: 'rejeitado',
+      documentos: ['BI'],
+      observacoes: 'Falta foto do cartão danificado'
+    },
+    {
+      id: 15,
+      nome: 'Carla Nunes',
+      numeroFuncionario: '14141',
+      departamento: 'Compras',
+      motivoSolicitacao: 'Cartão perdido',
+      datasolicitacao: '2024-01-01',
+      status: 'aprovado',
+      documentos: ['BI', 'Declaração de perda'],
+      observacoes: 'Perda confirmada'
+    },
+    {
+      id: 16,
+      nome: 'Rui Costa',
+      numeroFuncionario: '15151',
+      departamento: 'Desenvolvimento',
+      motivoSolicitacao: 'Cartão roubado',
+      datasolicitacao: '2023-12-31',
+      status: 'pendente',
+      documentos: ['BI', 'Participação policial'],
+      observacoes: 'Aguarda validação da participação'
+    },
+    {
+      id: 17,
+      nome: 'Helena Dias',
+      numeroFuncionario: '16161',
+      departamento: 'Jurídico',
+      motivoSolicitacao: 'Cartão danificado',
+      datasolicitacao: '2023-12-30',
+      status: 'aprovado',
+      documentos: ['BI', 'Foto do cartão'],
+      observacoes: 'Danos por água'
+    },
+    {
+      id: 18,
+      nome: 'Nuno Silva',
+      numeroFuncionario: '17171',
+      departamento: 'Auditoria',
+      motivoSolicitacao: 'Cartão perdido',
+      datasolicitacao: '2023-12-29',
+      status: 'pendente',
+      documentos: ['BI', 'Declaração de perda'],
+      observacoes: 'Perda durante auditoria externa'
+    }
   ]
 
   const getStatusColor = (status: string) => {
@@ -242,14 +396,14 @@ export default function Validar2Via() {
               </div>
 
               {/* Lista de Solicitações */}
-              <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
-                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg flex flex-col" style={{ height: 'calc(100vh - 400px)' }}>
+                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
                   <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                     Solicitações de 2ª Via ({filteredSolicitacoes.length})
                   </h3>
                 </div>
                 
-                <div className="overflow-x-auto">
+                <div className="flex-1 overflow-auto">
                   <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead className="bg-gray-50 dark:bg-gray-700">
                       <tr>
