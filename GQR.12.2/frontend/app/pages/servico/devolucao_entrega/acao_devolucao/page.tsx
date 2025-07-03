@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
   CalendarDaysIcon,
   CheckCircleIcon,
@@ -8,7 +8,11 @@ import {
   CreditCardIcon,
   PaperClipIcon,
   ExclamationTriangleIcon,
+  DocumentTextIcon,
+  IdentificationIcon,
+  ArrowLeftIcon,
   ClockIcon,
+  XMarkIcon, // Add this import
 } from '@heroicons/react/24/outline'
 import Sidebar from '@/app/components/navigation/Sidebar'
 import Navbar from '@/app/components/navigation/Navbar'
@@ -23,6 +27,7 @@ export default function AcaoDevolucaoPage() {
   const [cartaoBomEstado, setCartaoBomEstado] = useState(false)
   const [observacao, setObservacao] = useState('')
   const [anexos, setAnexos] = useState<File[]>([])
+  const [showConfirmation, setShowConfirmation] = useState(false)
 
   // Exemplo de dados do colaborador e cartão
   const colaborador = {
@@ -30,12 +35,17 @@ export default function AcaoDevolucaoPage() {
     numMec: '123456',
     departamento: 'Informática',
     contacto: 'joao.silva@email.com',
+    cargo: 'Técnico de Informática',
+    dataAdmissao: '2020-03-15',
   }
+  
   const cartao = {
-    numero: '987654321',
+    numero: '****1234',
     tipo: 'Acesso Total',
     estado: 'Ativo',
     dataEmissao: '2024-01-15',
+    dataExpiracao: '2026-01-15',
+    ultimoUso: '2024-01-14 16:30',
   }
 
   const motivos = [
@@ -45,30 +55,11 @@ export default function AcaoDevolucaoPage() {
     'Roubo / Perda',
   ]
 
-  // Histórico de devoluções
-  const historicoDevolucoes = [
-    { data: '2023-06-01', motivo: 'Fim de contrato', estado: 'Devolvido' },
-    { data: '2022-12-10', motivo: 'Substituição', estado: 'Devolvido' },
-  ]
-
   // Checklist de devolução
   const checklist = [
     { label: 'Cartão desmagnetizado', done: true },
     { label: 'Etiqueta removida', done: false },
     { label: 'Assinatura do termo', done: true },
-  ]
-
-  // Alertas
-  const alertas = [
-    { tipo: 'warning', mensagem: 'Cartão anterior não devolvido.' },
-    { tipo: 'info', mensagem: 'Colaborador com pendências administrativas.' },
-  ]
-
-  // Logs de auditoria
-  const logs = [
-    { acao: 'Pedido criado', user: 'Ana Silva', data: '2025-07-01 10:00' },
-    { acao: 'Aprovado pelo RH', user: 'Carlos Sousa', data: '2025-07-01 11:00' },
-    { acao: 'Cartão entregue', user: 'Ana Silva', data: '2025-07-02 09:00' },
   ]
 
   // Use centralized navigation
@@ -86,7 +77,11 @@ export default function AcaoDevolucaoPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    alert('Devolução registada!')
+    if (!motivo.trim()) {
+      alert('Por favor, selecione o motivo da devolução.')
+      return
+    }
+    setShowConfirmation(true)
   }
 
   function handleAnexoChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -95,212 +90,391 @@ export default function AcaoDevolucaoPage() {
     }
   }
 
+  const confirmSubmit = () => {
+    console.log('Devolução registada!')
+    setShowConfirmation(false)
+    // Aqui faria a chamada à API para registar a devolução
+    alert('Devolução registada com sucesso!')
+  }
+
+  const cancelSubmit = () => {
+    setShowConfirmation(false)
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <Sidebar navigation={navigation} />
+      
       <div className="md:pl-64 flex flex-col flex-1">
         <Navbar
           title="AÇÃO DE DEVOLUÇÃO"
           notificationsOpen={notificationsOpen}
           setNotificationsOpen={setNotificationsOpen}
         />
-        <main className="flex-1 flex flex-col items-center justify-center py-10">
-          <div className="w-full max-w-4xl flex flex-col gap-8">
-            {/* Alertas */}
-            {alertas.length > 0 && (
-              <div className="flex flex-col gap-2">
-                {alertas.map((alert, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex items-center gap-2 px-4 py-2 rounded ${
-                      alert.tipo === 'warning'
-                        ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                        : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                    }`}
-                  >
-                    <ExclamationTriangleIcon className="h-5 w-5" />
-                    <span>{alert.mensagem}</span>
-                  </div>
-                ))}
-              </div>
-            )}
 
-            {/* Resumo do Colaborador e Cartão */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <section className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow flex flex-col gap-2">
-                <div className="flex items-center gap-2 mb-2">
-                  <UserIcon className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
-                  <span className="font-semibold text-gray-900 dark:text-white">Colaborador</span>
+        <main className="flex-1">
+          <div className="py-6">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
+              {/* Header com botão voltar */}
+              <div className="mb-6">
+                <button
+                  onClick={() => window.history.back()}
+                  className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  <ArrowLeftIcon className="h-4 w-4 mr-2" />
+                  Voltar à Lista
+                </button>
+              </div>
+
+              <div className="space-y-6">
+                {/* 1. Dados do Colaborador */}
+                <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+                  <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
+                      <UserIcon className="h-6 w-6 mr-2" />
+                      Dados do Colaborador
+                    </h2>
+                  </div>
+                  <div className="p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Nome Completo
+                        </label>
+                        <p className="mt-1 text-lg text-gray-900 dark:text-white font-medium">{colaborador.nome}</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Número Mecanográfico
+                        </label>
+                        <p className="mt-1 text-lg text-gray-900 dark:text-white font-medium">{colaborador.numMec}</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Departamento
+                        </label>
+                        <p className="mt-1 text-lg text-gray-900 dark:text-white">{colaborador.departamento}</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Cargo
+                        </label>
+                        <p className="mt-1 text-lg text-gray-900 dark:text-white">{colaborador.cargo}</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Email
+                        </label>
+                        <p className="mt-1 text-lg text-gray-900 dark:text-white">{colaborador.contacto}</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Data de Admissão
+                        </label>
+                        <p className="mt-1 text-lg text-gray-900 dark:text-white">
+                          {new Date(colaborador.dataAdmissao).toLocaleDateString('pt-PT')}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-sm text-gray-700 dark:text-gray-200">Nome: {colaborador.nome}</div>
-                <div className="text-sm text-gray-700 dark:text-gray-200">Num. Mec: {colaborador.numMec}</div>
-                <div className="text-sm text-gray-700 dark:text-gray-200">Departamento: {colaborador.departamento}</div>
-                <div className="text-sm text-gray-700 dark:text-gray-200">Contacto: {colaborador.contacto}</div>
-              </section>
-              <section className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow flex flex-col gap-2">
-                <div className="flex items-center gap-2 mb-2">
-                  <CreditCardIcon className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
-                  <span className="font-semibold text-gray-900 dark:text-white">Cartão</span>
+
+                {/* 2. Estado do Cartão */}
+                <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+                  <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
+                      <IdentificationIcon className="h-6 w-6 mr-2" />
+                      Estado do Cartão
+                    </h2>
+                  </div>
+                  <div className="p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Número do Cartão
+                        </label>
+                        <p className="mt-1 text-lg text-gray-900 dark:text-white font-medium">{cartao.numero}</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Estado Atual
+                        </label>
+                        <span className="mt-1 inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                          {cartao.estado}
+                        </span>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Tipo de Acesso
+                        </label>
+                        <p className="mt-1 text-lg text-gray-900 dark:text-white">{cartao.tipo}</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Data de Emissão
+                        </label>
+                        <p className="mt-1 text-lg text-gray-900 dark:text-white">
+                          {new Date(cartao.dataEmissao).toLocaleDateString('pt-PT')}
+                        </p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Data de Expiração
+                        </label>
+                        <p className="mt-1 text-lg text-gray-900 dark:text-white">
+                          {new Date(cartao.dataExpiracao).toLocaleDateString('pt-PT')}
+                        </p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Último Uso
+                        </label>
+                        <p className="mt-1 text-lg text-gray-900 dark:text-white">{cartao.ultimoUso}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-sm text-gray-700 dark:text-gray-200">Nº: {cartao.numero}</div>
-                <div className="text-sm text-gray-700 dark:text-gray-200">Tipo: {cartao.tipo}</div>
-                <div className="text-sm text-gray-700 dark:text-gray-200">Estado: {cartao.estado}</div>
-                <div className="text-sm text-gray-700 dark:text-gray-200">Emissão: {cartao.dataEmissao}</div>
-              </section>
+
+                {/* 3. Formulário de Devolução */}
+                <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+                  <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
+                      <DocumentTextIcon className="h-6 w-6 mr-2" />
+                      Detalhes da Devolução
+                    </h2>
+                  </div>
+                  <div className="p-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Data de Devolução */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Data de Devolução
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="date"
+                              value={dataDevolucao}
+                              onChange={e => setDataDevolucao(e.target.value)}
+                              className="block w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                              required
+                            />
+                          </div>
+                        </div>
+                        
+                        {/* Serviço */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Serviço
+                          </label>
+                          <input
+                            type="text"
+                            value={servico}
+                            onChange={e => setServico(e.target.value)}
+                            className="block w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            placeholder="Nome do serviço"
+                            required
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Motivo da Devolução */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Motivo da Devolução
+                        </label>
+                        <select
+                          value={motivo}
+                          onChange={e => setMotivo(e.target.value)}
+                          className="block w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                          required
+                        >
+                          <option value="">Selecione o motivo</option>
+                          {motivos.map(m => (
+                            <option key={m} value={m}>{m}</option>
+                          ))}
+                        </select>
+                      </div>
+                      
+                      {/* Cartão bom estado - Modern Card */}
+                      <div 
+                        onClick={() => setCartaoBomEstado(!cartaoBomEstado)}
+                        className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
+                          cartaoBomEstado 
+                            ? 'border-green-500 bg-green-50 dark:bg-green-900/20' 
+                            : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <div className={`flex h-6 w-6 items-center justify-center rounded-full border-2 ${
+                            cartaoBomEstado 
+                              ? 'border-green-500 bg-green-500' 
+                              : 'border-gray-300 dark:border-gray-500'
+                          }`}>
+                            {cartaoBomEstado && (
+                              <CheckCircleIcon className="h-4 w-4 text-white" />
+                            )}
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium text-gray-900 dark:text-white cursor-pointer">
+                              Cartão em bom estado
+                            </label>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              Confirme se o cartão está em condições adequadas
+                            </p>
+                          </div>
+                        </div>
+                        <input
+                          id="cartaoBomEstado"
+                          type="checkbox"
+                          checked={cartaoBomEstado}
+                          onChange={e => setCartaoBomEstado(e.target.checked)}
+                          className="sr-only"
+                        />
+                      </div>
+                      {/* Observações */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Observações
+                        </label>
+                        <textarea
+                          rows={4}
+                          value={observacao}
+                          onChange={e => setObservacao(e.target.value)}
+                          className="block w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                          placeholder="Adicionar observações sobre a devolução..."
+                        />
+                      </div>
+                      
+                      {/* Anexos - Enhanced file input */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
+                          <PaperClipIcon className="h-5 w-5 mr-2" />
+                          Anexos
+                        </label>
+                        <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
+                          <div className="space-y-2">
+                            <PaperClipIcon className="mx-auto h-8 w-8 text-gray-400" />
+                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                              <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                <span>Escolher ficheiros</span>
+                                <input
+                                  id="file-upload"
+                                  type="file"
+                                  multiple
+                                  className="sr-only"
+                                  onChange={handleAnexoChange}
+                                />
+                              </label>
+                              <span className="pl-1">ou arraste e largue aqui</span>
+                            </div>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              PNG, JPG, PDF até 10MB cada
+                            </p>
+                          </div>
+                        </div>
+                        {anexos.length > 0 && (
+                          <div className="mt-4">
+                            <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Ficheiros selecionados:</h4>
+                            <ul className="space-y-2">
+                              {anexos.map((file, idx) => (
+                                <li key={idx} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
+                                  <div className="flex items-center">
+                                    <PaperClipIcon className="h-4 w-4 mr-2 text-gray-400" />
+                                    <span className="text-sm text-gray-900 dark:text-white">{file.name}</span>
+                                    <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const newAnexos = anexos.filter((_, index) => index !== idx)
+                                      setAnexos(newAnexos)
+                                    }}
+                                    className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                                  >
+                                    <XMarkIcon className="h-4 w-4" />
+                                  </button>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Botões de ação */}
+                      <div className="flex flex-col sm:flex-row gap-4 pt-6">
+                        <button
+                          type="button"
+                          className="flex-1 inline-flex justify-center items-center px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-base font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          onClick={() => window.history.back()}
+                        >
+                          Cancelar
+                        </button>
+                        
+                        <button
+                          type="button"
+                          className="flex-1 inline-flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                          onClick={() => alert('Comprovativo impresso')}
+                        >
+                          Imprimir Comprovativo
+                        </button>
+                        
+                        <button
+                          type="submit"
+                          className="flex-1 inline-flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                        >
+                          <CheckCircleIcon className="h-5 w-5 mr-2" />
+                          Registar Devolução
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            {/* Formulário principal */}
-            <form
-              onSubmit={handleSubmit}
-              className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-8 shadow flex flex-col gap-8"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Data de Devolução */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                    Data de Devolução
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="date"
-                      value={dataDevolucao}
-                      onChange={e => setDataDevolucao(e.target.value)}
-                      className="rounded border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      required
-                    />
-                    <CalendarDaysIcon className="h-5 w-5 text-gray-400" />
-                  </div>
-                </div>
-                {/* Serviço */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                    Serviço
-                  </label>
-                  <input
-                    type="text"
-                    value={servico}
-                    onChange={e => setServico(e.target.value)}
-                    className="w-full rounded border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    placeholder="Nome do serviço"
-                    required
-                  />
-                </div>
-              </div>
-              {/* Motivo da Devolução */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                  Motivo da Devolução
-                </label>
-                <select
-                  value={motivo}
-                  onChange={e => setMotivo(e.target.value)}
-                  className="w-full rounded border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  required
-                >
-                  <option value="">Selecione o motivo</option>
-                  {motivos.map(m => (
-                    <option key={m} value={m}>{m}</option>
-                  ))}
-                </select>
-              </div>
-              {/* Cartão bom estado */}
-              <div className="flex items-center gap-2">
-                <input
-                  id="cartaoBomEstado"
-                  type="checkbox"
-                  checked={cartaoBomEstado}
-                  onChange={e => setCartaoBomEstado(e.target.checked)}
-                  className="accent-indigo-600 h-5 w-5"
-                />
-                <label htmlFor="cartaoBomEstado" className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                  Cartão bom estado
-                </label>
-              </div>
-              {/* Observações */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                  Observações
-                </label>
-                <textarea
-                  value={observacao}
-                  onChange={e => setObservacao(e.target.value)}
-                  className="w-full rounded border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  placeholder="Adicionar observações..."
-                  rows={2}
-                />
-              </div>
-              {/* Anexos */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1 flex items-center gap-2">
-                  <PaperClipIcon className="h-5 w-5" />
-                  Anexos
-                </label>
-                <input
-                  type="file"
-                  multiple
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
-                  onChange={handleAnexoChange}
-                />
-                <ul className="text-xs text-gray-700 dark:text-gray-200 mt-2">
-                  {anexos.map((file, idx) => (
-                    <li key={idx}>{file.name}</li>
-                  ))}
-                </ul>
-              </div>
-              {/* Checklist de devolução */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1 flex items-center gap-2">
-                  <CheckCircleIcon className="h-5 w-5 text-green-500" />
-                  Checklist de Devolução
-                </label>
-                <ul className="space-y-2">
-                  {checklist.map((item, idx) => (
-                    <li key={idx} className="flex items-center gap-2">
-                      <input type="checkbox" checked={item.done} readOnly className="accent-indigo-600" />
-                      <span className={item.done ? "line-through text-gray-400" : ""}>{item.label}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-             
-              {/* Botões de ação extra */}
-              <div className="flex flex-wrap gap-4 justify-end">
-                <button
-                  type="button"
-                  className="px-6 py-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-                  onClick={() => alert('Cancelado')}
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="button"
-                  className="px-6 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
-                  onClick={() => alert('Imprimir comprovativo')}
-                >
-                  Imprimir comprovativo
-                </button>
-                <button
-                  type="button"
-                  className="px-6 py-2 rounded bg-yellow-600 text-white font-semibold hover:bg-yellow-700 transition"
-                  onClick={() => alert('Notificação enviada')}
-                >
-                  Notificar colaborador
-                </button>
-                <button
-                  type="submit"
-                  className="px-8 py-2 rounded bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition flex items-center gap-2"
-                >
-                  <CheckCircleIcon className="h-5 w-5" />
-                  OK
-                </button>
-              </div>
-            </form>
-
-            {/* Logs de auditoria */}
-          
           </div>
         </main>
       </div>
+
+      {/* Modal de Confirmação */}
+      {showConfirmation && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white dark:bg-gray-800">
+            <div className="mt-3 text-center">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                <CheckCircleIcon className="h-6 w-6 text-green-600" />
+              </div>
+              <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mt-4">
+                Confirmar Devolução
+              </h3>
+              <div className="mt-2 px-7 py-3">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Tem certeza que deseja registar esta devolução?
+                  <span className="block mt-2 font-medium">Motivo: {motivo}</span>
+                  <span className="block font-medium">Data: {new Date(dataDevolucao).toLocaleDateString('pt-PT')}</span>
+                </p>
+              </div>
+              <div className="items-center px-4 py-3">
+                <div className="flex gap-3">
+                  <button
+                    onClick={confirmSubmit}
+                    className="px-4 py-2 bg-green-600 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  >
+                    Confirmar
+                  </button>
+                  <button
+                    onClick={cancelSubmit}
+                    className="px-4 py-2 bg-gray-300 text-gray-700 text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <NotificationsPanel
         isOpen={notificationsOpen}
         setIsOpen={setNotificationsOpen}
